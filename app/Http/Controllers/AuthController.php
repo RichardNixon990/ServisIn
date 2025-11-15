@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Validate;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -36,7 +35,17 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route('home')->with('success', 'Login berhasil!');
+            $user = Auth::user();
+            $role = $user->role->nama_role;
+
+        if ($role === 'admin') {
+            return redirect()->route('authregister');
+        } elseif ($role === 'technician') {
+            return redirect()->route('technicianDashboard');
+        } else{
+            return redirect()->route('orderlist');
+        }
+
         }
 
         return back()->withErrors([
@@ -83,7 +92,16 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return view('home')->with('success', 'Registrasi berhasil dan Anda sudah login!');
+        return redirect()->route('authlogin')->with('success', 'Registrasi berhasil dan Anda sudah login!');
+    }
+
+    public function logout(Request $request){
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+return redirect()->route('landing')->with('success', 'Registrasi berhasil dan Anda sudah login!');
     }
     }
 

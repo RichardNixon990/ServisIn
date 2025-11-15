@@ -22,7 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'user_id',
+        'role_id',
         'phone',
         'address'
     ];
@@ -46,9 +46,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function role(){
-        return $this->belongsTo(Role::class);
-    }
+public function role()
+{
+    return $this->belongsTo(Role::class, 'role_id');
+}
 
     public function technician(){
         return $this->hasOne(technician::class, 'user_id');

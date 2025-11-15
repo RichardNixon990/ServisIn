@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('specialization');
-            $table->foreignId('status');
+            $table->integer('experience_years');
             $table->timestamps();
         });
     }
