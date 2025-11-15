@@ -1,0 +1,54 @@
+/* Custom styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Section delays */
+section:nth-child(1) .animate-fade-in { animation-delay: 0.1s; }
+section:nth-child(2) .animate-fade-in { animation-delay: 0.2s; }
+section:nth-child(3) .animate-fade-in { animation-delay: 0.3s; }
+section:nth-child(4) .animate-fade-in { animation-delay: 0.4s; }
+
+
+        @keyframes scale-in {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-scale-in {
+            animation: scale-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Smooth star animation */
+        #star1:hover svg,
+        #star2:hover svg,
+        #star3:hover svg,
+        #star4:hover svg,
+        #star5:hover svg {
+            filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6));
+        }
