@@ -16,11 +16,26 @@
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
                     @if (auth()->check())
+                    @if (Auth::user()->role->nama_role == 'admin')
                     <a
-                    href={{route('orderlist')}}
+                    href={{route('adminDashboard')}}
                     class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium rounded-full px-8 py-4 text-center shadow-lg hover:shadow-xl transition-all duration-200">
                     Pesan Teknisi Sekarang
                 </a>
+                @elseif (Auth::user()->role->nama_role == 'technician')
+                <a
+                href={{route('technicianDashboard')}}
+                class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium rounded-full px-8 py-4 text-center shadow-lg hover:shadow-xl transition-all duration-200">
+                Pesan Teknisi Sekarang
+            </a>
+            @else
+            <a
+            href={{route('orderlist')}}
+            class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium rounded-full px-8 py-4 text-center shadow-lg hover:shadow-xl transition-all duration-200">
+            Pesan Teknisi Sekarang
+        </a>
+
+                    @endif
 
                 @else
                 <a href={{route('authlogin')}}

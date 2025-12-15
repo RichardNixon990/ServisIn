@@ -10,7 +10,7 @@ class Rating extends Model
     use HasFactory;
     protected $guarded = [];
 
-        public function order(){
-        return $this->belongsTo(Order::class, 'order_id');
+    public function technician(){
+        return $this->belongsTo(Technician::class, 'technician_id');
     }
 }

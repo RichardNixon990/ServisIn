@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('address');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes('deleted_at');
         });
     }
 
