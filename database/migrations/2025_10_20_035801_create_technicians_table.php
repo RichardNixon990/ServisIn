@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('technicians', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->references('id')->on('users')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('specialization');
+            $table->enum('status', ['online', 'offline'])->default('offline')->nullable();
             $table->integer('experience_years');
             $table->timestamps();
+            $table->softDeletes('deleted_at');
         });
     }
 

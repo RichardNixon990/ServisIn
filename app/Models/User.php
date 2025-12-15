@@ -6,11 +6,13 @@ namespace App\Models;
 use App\Models\Role;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use SoftDeletes;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -51,10 +53,12 @@ public function role()
     return $this->belongsTo(Role::class, 'role_id');
 }
 
-    public function technician(){
-        return $this->hasOne(technician::class, 'user_id');
-    }
-    public function order(){
-        return $this->hasMany(Order::class, 'user_id');
+public function technician(){
+    return $this->hasOne(Technician::class, 'user_id');
+}
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

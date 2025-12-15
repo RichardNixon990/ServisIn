@@ -10,7 +10,7 @@ class Payment extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function order(){
+    public function orders(){
         return $this->belongsTo(Order::class);
     }
 }

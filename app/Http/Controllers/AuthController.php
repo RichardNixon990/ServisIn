@@ -39,7 +39,7 @@ class AuthController extends Controller
             $role = $user->role->nama_role;
 
         if ($role === 'admin') {
-            return redirect()->route('authregister');
+            return redirect()->route('adminDashboard');
         } elseif ($role === 'technician') {
             return redirect()->route('technicianDashboard');
         } else{
@@ -101,7 +101,8 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-return redirect()->route('landing')->with('success', 'Registrasi berhasil dan Anda sudah login!');
-    }
+        return redirect()->route('landing')->with('success', 'Registrasi berhasil dan Anda sudah login!');
     }
 
+
+}

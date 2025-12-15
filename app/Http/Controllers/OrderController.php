@@ -23,13 +23,10 @@ class OrderController extends Controller
     public function index(){
         try {
             $user = Auth::user();
-            if($user->role === 'admin' || $user->role === 'technician'){
-                $orders = Order::latest()->paginate(10);
-            }else{
-                $orders = Order::where('user_id', $user->id)
+                $orders = Order::with('technician.user')->where('user_id', $user->id)
                 ->latest()->paginate(10);
-            }
-            return view('User.listOrder', compact('orders'));
+                return view('User.listOrder', compact('orders'));
+
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Internal Server Error',
@@ -42,13 +39,14 @@ class OrderController extends Controller
     }
 
     public function store(Request $request){
+        // dd($request);
         $validate = Validator::make($request->all(), [
-            'technician_id' => 'nullable|exists:users,id',
+            'technician_id' => 'nullable|exists:technicians,id',
             'device_type' => 'required|in:hp,laptop,tablet',
             'brand' => 'required',
             'issue_description' => 'required',
             'address' => 'nullable',
-            'schedule_date' => 'required',
+            'schedule_date' => 'required|date',
             'estimated_cost' => 'nullable',
             'final_cost' => 'nullable',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -61,7 +59,7 @@ class OrderController extends Controller
         try {
             $orders = new Order();
             $orders->user_id = auth()->id(); // user login
-            $orders->technician_id = $request->input('technician_id') ?? null;
+            $orders->technician_id = null;
             $orders->device_type = $request->input('device_type');
             $orders->brand = $request->input('brand');
             $orders->issue_description = $request->input('issue_description');
@@ -74,11 +72,10 @@ class OrderController extends Controller
             $orders->save();
 
             if ($request->hasFile('photo')) {
-                $path = $this->upload->upload($request->file('photo'), 'orders');
-                $orders->photo = $path;
-            } else {
-                $orders->photo = null;
+                $orders->photo = $this->upload->upload($request->file('photo'), 'orders');
+                $orders->save();
             }
+
             return redirect()->route('orderlist')->with('success', 'Order berhasil ditambahkan.');
         } catch (Exception $e) {
             return response()->json([
@@ -87,9 +84,35 @@ class OrderController extends Controller
             ], 500);
         }
     }
+
+    public function update(Request $request, Order $orders){
+        $validate = Validator::make($request->all(), [
+            'technician_id' => 'nullable|exists:technicians,id',
+            'device_type' => 'required|in:hp,laptop,tablet',
+            'brand' => 'required',
+            'address' => 'nullable',
+            'schedule_date' => 'required|date|after_or_equal:today',
+            'estimated_cost' => 'nullable|min:0',
+            'status' => 'required|in:pending,in progress,completed,cancelled',
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate)->withInput();
+        }
+        $orders->update([
+        'technician_id' => $request->technician_id,
+        'device_type' => $request->device_type,
+        'brand' => $request->brand,
+        'address' => $request->address,
+'schedule_date' => $request->schedule_date,
+        'status' => $request->status,
+    ]);
+         return back()->with('success', 'Pesanan berhasil diupdate!');
+
+}
     public function takeorder(Request $request, Order $orders){
         try {
-                   $user = Auth::user();
+            $user = Auth::user();
 
             if ($user->role->nama_role !== 'technician') {
                 return back()->with('error', 'Hanya teknisi yang dapat mengambil pesanan.');
@@ -109,7 +132,7 @@ class OrderController extends Controller
 
 
             $orders->update([
-                'technician_id' => $user->id,
+                'technician_id' => $user->technician->id,
                 'status' => 'on_process'
             ]);
 
@@ -122,15 +145,44 @@ class OrderController extends Controller
         }
     }
 
+    public function completedOrder(Request $request, Order $orders){
+        try{
+        if ($orders->technician_id !== auth()->user()->technician->id) {
+            return redirect()->back()->with('error', 'Anda tidak berhak menyelesaikan order ini.');
+        }
+
+        if ($orders->status !== 'on_process') {
+            return redirect()->back()->with('error', 'Order ini sudah tidak dalam status dikerjakan.');
+        }
+
+        $orders->update([
+            'status' => 'completed',
+            'completed_at' => now(),
+            'final_cost' => $request->final_cost,
+            'notes' => $request->notes
+        ]);
+
+        return back()->with('success', 'Pesanan berhasil diselesaikan! 🎉');
+
+    } catch (Exception $e) {
+        return response()->json([
+            'message' => 'Internal Server Error',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+    }
+
     public function Cancel(Request $request, Order $orders){
         try {
 
-            if (auth()->id() !== $orders->user_id) {
+            if ($orders->technician_id !== auth()->id()) {
                 return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk membatalkan pesanan ini.');
             }
 
-            $orders->status = 'cancelled';
-            $orders->save();
+         $orders->update([
+            'status' => 'cancelled',
+            'cancelled_at' => now(),
+        ]);
 
             return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan.');
         } catch (Exception $e) {
@@ -142,23 +194,23 @@ class OrderController extends Controller
     }
 
 
-    // public function delete(Request $request, Order $orders){
-    //     try {
-    //         if ($orders->photo) {
-    //         $this->upload->delete($orders->photo);
-    //     }
+    public function delete(Request $request, Order $orders){
+        try {
+            if ($orders->photo) {
+            $this->upload->delete($orders->photo);
+        }
 
-    //     $orders->delete();
+          $orders->delete();
 
-    //     return redirect()->back()->with('success', 'Pesanan berhasil dihapus.');
-    //     } catch (Exception $e) {
-    //         return response()->json([
-    //             'message' => 'Internal Server Error',
-    //             'error' => $e->getMessage()
-    //         ], 500);
-    //     }
+        return redirect()->back()->with('success', 'Pesanan berhasil dihapus.');
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Internal Server Error',
+                'error' => $e->getMessage()
+            ], 500);
+        }
 
-    // }
+    }
 
 
 }

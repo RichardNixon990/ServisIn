@@ -10,7 +10,7 @@
   <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
     <h2 class="text-2xl font-bold text-center mb-6">Tambah Teknisi Baru</h2>
 
-    <form action="{{(route('technicianstore'))}}" method="POST">
+    <form action="{{(route('storeTechnician'))}}" method="POST">
       <!-- Ganti URL di atas sesuai route store kamu -->
 
       <!-- Token CSRF -->
