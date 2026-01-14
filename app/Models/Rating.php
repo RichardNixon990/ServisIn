@@ -13,4 +13,8 @@ class Rating extends Model
     public function technician(){
         return $this->belongsTo(Technician::class, 'technician_id');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
