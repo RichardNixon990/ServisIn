@@ -3,7 +3,7 @@
 
     <!-- Hero Section -->
     <section class="py-16 md:py-24 px-6 md:pt-32">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div class="max-w-4xl mx-auto text-center">
             <div class="space-y-6">
                 <h1 class="text-4xl md:text-5xl font-bold leading-tight">
                     Perbaikan perangkat jadi
@@ -14,46 +14,35 @@
                     Terhubung dengan teknisi bersertifikat yang siap datang ke lokasi Anda untuk perbaikan cepat dan
                     terjangkau untuk ponsel, laptop, dan elektronik lainnya.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     @if (auth()->check())
-                    @if (Auth::user()->role->nama_role == 'admin')
-                    <a
-                    href={{route('adminDashboard')}}
-                    class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium rounded-full px-8 py-4 text-center shadow-lg hover:shadow-xl transition-all duration-200">
-                    Pesan Teknisi Sekarang
-                </a>
-                @elseif (Auth::user()->role->nama_role == 'technician')
-                <a
-                href={{route('technicianDashboard')}}
-                class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium rounded-full px-8 py-4 text-center shadow-lg hover:shadow-xl transition-all duration-200">
-                Pesan Teknisi Sekarang
-            </a>
-            @else
-            <a
-            href={{route('orderlist')}}
-            class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium rounded-full px-8 py-4 text-center shadow-lg hover:shadow-xl transition-all duration-200">
-            Pesan Teknisi Sekarang
-        </a>
-
-                    @endif
-
-                @else
-                <a href={{route('authlogin')}}
-                class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium rounded-full px-8 py-4 text-center shadow-lg hover:shadow-xl transition-all duration-200">
-                Pesan Teknisi Sekarang
-            </a>
+                        @if (Auth::user()->role->nama_role == 'admin')
+                            <a href={{ route('adminDashboard') }}
+                                class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium rounded-full px-8 py-4 text-center shadow-lg hover:shadow-xl transition-all duration-200">
+                                Pesan Teknisi Sekarang
+                            </a>
+                        @elseif (Auth::user()->role->nama_role == 'technician')
+                            <a href={{ route('technicianDashboard') }}
+                                class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium rounded-full px-8 py-4 text-center shadow-lg hover:shadow-xl transition-all duration-200">
+                                Pesan Teknisi Sekarang
+                            </a>
+                        @else
+                            <a href={{ route('orderlist') }}
+                                class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium rounded-full px-8 py-4 text-center shadow-lg hover:shadow-xl transition-all duration-200">
+                                Pesan Teknisi Sekarang
+                            </a>
+                        @endif
+                    @else
+                        <a href={{ route('authlogin') }}
+                            class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium rounded-full px-8 py-4 text-center shadow-lg hover:shadow-xl transition-all duration-200">
+                            Pesan Teknisi Sekarang
+                        </a>
                     @endif
                     <a href="#how-it-works"
                         class="border-2 border-blue-600 text-blue-600 font-medium rounded-full px-8 py-4 text-center hover:bg-blue-50 transition-all duration-200">
                         Cara Kerja
                     </a>
                 </div>
-            </div>
-            <div class="relative">
-                <img src="http://static.photos/technology/1024x576/1" alt="Teknisi memperbaiki ponsel"
-                    class="rounded-2xl shadow-xl w-full">
-                <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-blue-100 rounded-2xl -z-10"></div>
-                <div class="absolute -top-6 -right-6 w-20 h-20 bg-blue-200 rounded-full -z-10"></div>
             </div>
         </div>
     </section>
@@ -130,30 +119,40 @@
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-12">Apa Kata Pelanggan Kami</h2>
             <div class="grid md:grid-cols-3 gap-8">
-                @for ($i = 1; $i <= 3; $i++)
+
+                @foreach ($testimonials as $testimonial)
                     <div class="bg-gray-50 p-8 rounded-2xl">
                         <div class="flex items-center mb-6">
-                            <img src="http://static.photos/people/200x200/{{ $i }}" alt="Pelanggan"
-                                class="w-12 h-12 rounded-full mr-4">
+                            {{-- Avatar (inisial user) --}}
+                            <div
+                                class="w-12 h-12 rounded-full bg-gray-300 mr-4
+                        flex items-center justify-center font-bold text-lg">
+                                {{ strtoupper(substr($testimonial->user->name ?? $testimonial->name, 0, 2)) }}
+                            </div>
+
                             <div>
-                                <h4 class="font-semibold">{{ ['Sarah J.', 'Michael T.', 'Priya K.'][$i - 1] }}</h4>
+                                <h4 class="font-semibold">
+                                    {{ $testimonial->user->name ?? $testimonial->name }}
+                                </h4>
+
+                                {{-- Bintang --}}
                                 <div class="flex text-yellow-400">
-                                    @for ($s = 0; $s < 5; $s++)
+                                    @for ($s = 1; $s <= 5; $s++)
                                         <i data-feather="star" class="w-4 h-4 fill-current"></i>
                                     @endfor
                                 </div>
                             </div>
                         </div>
-                        <p class="text-gray-600">
-                            {{ [
-                                '"Layar ponsel saya retak dan saya dapat layanan di hari yang sama. Teknisi sangat profesional dan selesai dalam waktu kurang dari satu jam!"',
-                                '"Laptop saya tidak mau menyala setelah terkena air. ServisIn membantu saya menemukan teknisi ahli yang memperbaikinya di kantor saya."',
-                                '"Awalnya ragu perbaikan di rumah, tapi teknisinya sangat berpengalaman dan tablet saya kembali normal seperti baru!"',
-                            ][$i - 1] }}
+
+                        {{-- Komentar --}}
+                        <p class="text-gray-600 italic">
+                            "{{ $testimonial->comment }}"
                         </p>
                     </div>
-                @endfor
+                @endforeach
+
             </div>
+        </div>
         </div>
     </section>
 

@@ -61,4 +61,8 @@ public function technician(){
     {
         return $this->hasMany(Order::class);
     }
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'user_id');
+    }
 }

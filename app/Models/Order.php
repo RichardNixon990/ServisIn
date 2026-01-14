@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
-    use SoftDeletes;
+use SoftDeletes;
     use HasFactory;
     protected $guarded = [];
 
