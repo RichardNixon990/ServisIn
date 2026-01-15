@@ -27,4 +27,8 @@ use SoftDeletes;
     public function payment(){
         return $this->hasMany(Payment::class);
     }
+
+    public function listKerusakan(){
+        return $this->hasMany(ListKerusakan::class);
+    }
 }

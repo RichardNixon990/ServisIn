@@ -114,29 +114,7 @@
                 </div>
             </div>
 
-            <!-- ===== STATS CARDS ===== -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                <!-- CARD: Total Completed -->
-                <div class="bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 text-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-slide-up relative overflow-hidden group"
-                    style="animation-delay: 0.2s">
-                    <div
-                        class="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500">
-                    </div>
-                    <div class="relative z-10">
-                        <div class="flex justify-between items-start mb-4">
-                            <div
-                                class="w-14 h-14 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
-                                <i data-feather="award" class="w-7 h-7"></i>
-                            </div>
-                            <span
-                                class="px-3 py-1 bg-blue-400 bg-opacity-30 rounded-full text-xs font-bold backdrop-blur-sm">Total</span>
-                        </div>
-                        <p class="text-sm opacity-90 mb-1 font-medium">Total Diselesaikan</p>
-                        <h3 class="text-4xl font-black mb-1">{{ $stats['total_completed'] }}</h3>
-                        <p class="text-xs opacity-75">Sepanjang waktu</p>
-                    </div>
-                </div>
-            </div>
+
 
             <!-- ===== FILTER SECTION ===== -->
             <div class="bg-white rounded-2xl shadow-lg p-4 mb-8 border border-gray-100 animate-fade-in">
@@ -229,6 +207,71 @@
                                     <p class="text-sm text-gray-700 leading-relaxed">{{ $order->issue_description }}</p>
                                 </div>
                             </div>
+
+                               <!-- ESTIMATED SPAREPARTS & COST -->
+                            <div>
+                                <div class="flex items-center mb-2">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-2">
+                                        <i data-feather="tool" class="w-4 h-4 text-blue-600"></i>
+                                    </div>
+                                    <h4 class="text-sm font-bold text-gray-800">Estimasi Sparepart & Biaya</h4>
+                                </div>
+
+                                <div
+                                    class="bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-200 shadow-sm space-y-3">
+                                    <!-- List Spareparts -->
+                                    @if ($order->listKerusakan && $order->listKerusakan->count() > 0)
+                                        <div class="space-y-2">
+                                            @foreach ($order->listKerusakan as $item)
+                                                <div
+                                                    class="flex items-center justify-between p-2.5 bg-white rounded-lg hover:bg-blue-50 transition-colors">
+                                                    <div class="flex items-center flex-1 min-w-0">
+                                                        <div
+                                                            class="w-2 h-2 bg-blue-500 rounded-full mr-2.5 flex-shrink-0">
+                                                        </div>
+                                                        <span
+                                                            class="text-sm font-medium text-gray-700 truncate">{{ $item->nama_barang }}</span>
+                                                    </div>
+                                                    <span class="text-sm font-bold text-blue-700 ml-3 flex-shrink-0">
+                                                        Rp {{ number_format($item->harga, 0, ',', '.') }}
+                                                    </span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Total Estimasi -->
+                                        <div class="pt-2 border-t-2 border-blue-200">
+                                            <div
+                                                class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg">
+                                                <span class="text-sm font-bold text-white flex items-center">
+                                                    <i data-feather="calculator" class="w-4 h-4 mr-2"></i>
+                                                    Total Estimasi
+                                                </span>
+                                                <span class="text-base font-black text-white">
+                                                    Rp {{ number_format($order->estimated_cost, 0, ',', '.') }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Info Badge -->
+                                        <div
+                                            class="flex items-start gap-2 p-2.5 bg-blue-50 rounded-lg border border-blue-200">
+                                            <i data-feather="info" class="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0"></i>
+                                            <p class="text-xs text-blue-700 leading-relaxed">
+                                                <span class="font-semibold">Estimasi awal:</span> Biaya dapat berubah
+                                                setelah pemeriksaan detail
+                                            </p>
+                                        </div>
+                                    @else
+                                        <div class="flex items-center justify-center p-4 bg-white rounded-lg">
+                                            <i data-feather="alert-circle" class="w-4 h-4 text-gray-400 mr-2"></i>
+                                            <span class="text-sm text-gray-500 italic">Estimasi sparepart belum
+                                                tersedia</span>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
 
                             <!-- SCHEDULE DATE -->
                             <div
@@ -550,23 +593,6 @@
                                 <i data-feather="info" class="w-3 h-3 inline-block mr-1"></i>
                                 Opsional. Tambahkan catatan perbaikan atau informasi tambahan.
                             </p>
-                        </div>
-
-                        <!-- Warning Box -->
-                        <div class="bg-amber-50 p-4 rounded-xl border-2 border-amber-200">
-                            <div class="flex items-start">
-                                <div
-                                    class="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
-                                    <i data-feather="alert-triangle" class="w-5 h-5 text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-sm font-bold text-amber-900 mb-1">Perhatian!</h4>
-                                    <p class="text-xs text-amber-800 leading-relaxed">
-                                        Pastikan semua pekerjaan sudah selesai sebelum menandai pesanan ini sebagai selesai.
-                                        Biaya akhir dan catatan tidak dapat diubah setelah dikonfirmasi.
-                                    </p>
-                                </div>
-                            </div>
                         </div>
                     </div>
 

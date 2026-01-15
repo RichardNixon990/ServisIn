@@ -286,6 +286,70 @@
                                 </div>
                             </div>
 
+                            <!-- ESTIMATED SPAREPARTS & COST -->
+                            <div>
+                                <div class="flex items-center mb-2">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-2">
+                                        <i data-feather="tool" class="w-4 h-4 text-blue-600"></i>
+                                    </div>
+                                    <h4 class="text-sm font-bold text-gray-800">Estimasi Sparepart & Biaya</h4>
+                                </div>
+
+                                <div
+                                    class="bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-200 shadow-sm space-y-3">
+                                    <!-- List Spareparts -->
+                                    @if ($order->listKerusakan && $order->listKerusakan->count() > 0)
+                                        <div class="space-y-2">
+                                            @foreach ($order->listKerusakan as $item)
+                                                <div
+                                                    class="flex items-center justify-between p-2.5 bg-white rounded-lg hover:bg-blue-50 transition-colors">
+                                                    <div class="flex items-center flex-1 min-w-0">
+                                                        <div
+                                                            class="w-2 h-2 bg-blue-500 rounded-full mr-2.5 flex-shrink-0">
+                                                        </div>
+                                                        <span
+                                                            class="text-sm font-medium text-gray-700 truncate">{{ $item->nama_barang }}</span>
+                                                    </div>
+                                                    <span class="text-sm font-bold text-blue-700 ml-3 flex-shrink-0">
+                                                        Rp {{ number_format($item->harga, 0, ',', '.') }}
+                                                    </span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Total Estimasi -->
+                                        <div class="pt-2 border-t-2 border-blue-200">
+                                            <div
+                                                class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg">
+                                                <span class="text-sm font-bold text-white flex items-center">
+                                                    <i data-feather="calculator" class="w-4 h-4 mr-2"></i>
+                                                    Total Estimasi
+                                                </span>
+                                                <span class="text-base font-black text-white">
+                                                    Rp {{ number_format($order->estimated_cost, 0, ',', '.') }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Info Badge -->
+                                        <div
+                                            class="flex items-start gap-2 p-2.5 bg-blue-50 rounded-lg border border-blue-200">
+                                            <i data-feather="info" class="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0"></i>
+                                            <p class="text-xs text-blue-700 leading-relaxed">
+                                                <span class="font-semibold">Estimasi awal:</span> Biaya dapat berubah
+                                                setelah pemeriksaan detail
+                                            </p>
+                                        </div>
+                                    @else
+                                        <div class="flex items-center justify-center p-4 bg-white rounded-lg">
+                                            <i data-feather="alert-circle" class="w-4 h-4 text-gray-400 mr-2"></i>
+                                            <span class="text-sm text-gray-500 italic">Estimasi sparepart belum
+                                                tersedia</span>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
                             <!-- SCHEDULE DATE -->
                             <div
                                 class="flex items-center justify-between p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border border-blue-200 shadow-sm hover:shadow-md transition-shadow">
@@ -329,7 +393,8 @@
                                         class="flex items-center justify-between p-3 bg-white rounded-lg hover:bg-purple-100 transition-colors group">
                                         <div class="flex items-center">
                                             <i data-feather="phone" class="w-4 h-4 text-purple-600 mr-2"></i>
-                                            <span class="text-sm font-semibold text-gray-700">{{ $order->user->phone }}</span>
+                                            <span
+                                                class="text-sm font-semibold text-gray-700">{{ $order->user->phone }}</span>
                                         </div>
                                         <i data-feather="external-link"
                                             class="w-4 h-4 text-gray-400 group-hover:text-purple-600 transition-colors"></i>
@@ -363,7 +428,8 @@
                             @if ($order->photo)
                                 <div>
                                     <div class="flex items-center mb-2">
-                                        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-2">
+                                        <div
+                                            class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-2">
                                             <i data-feather="image" class="w-4 h-4 text-indigo-600"></i>
                                         </div>
                                         <h4 class="text-sm font-bold text-gray-800">Foto Kerusakan</h4>
@@ -392,6 +458,7 @@
                             </div>
 
                             <!-- FORM AMBIL PESANAN -->
+                            @if ($technicianStatus === 'online')
                             <form action="{{ route('techniciantakeorder', $order->id) }}" method="POST"
                                 style="display: inline-block; width: 100%;">
                                 @csrf
@@ -407,6 +474,20 @@
                                         class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"></i>
                                 </button>
                             </form>
+                            @else
+    <div class="space-y-3">
+        <button disabled
+            class="relative w-full py-4 bg-gradient-to-r from-gray-400 to-gray-500 text-white font-bold rounded-xl shadow-lg cursor-not-allowed flex items-center justify-center group">
+            <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center mr-3 backdrop-blur-sm">
+                <i data-feather="power" class="w-5 h-5"></i>
+            </div>
+            <div class="text-left">
+                <div class="text-sm font-bold">Status Offline</div>
+                <div class="text-xs opacity-90">Aktifkan untuk mengambil pesanan</div>
+            </div>
+        </button>
+    </div>
+                            @endif
                         </div>
 
                         <!-- CARD FOOTER -->
@@ -443,13 +524,14 @@
                     <div class="flex items-center gap-2">
                         {{-- Previous Button --}}
                         @if ($orders->onFirstPage())
-                            <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed">
+                            <span
+                                class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed">
                                 <i data-feather="chevron-left" class="w-4 h-4 inline-block"></i>
                                 Previous
                             </span>
                         @else
                             <a href="{{ $orders->previousPageUrl() }}"
-                               class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
+                                class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
                                 <i data-feather="chevron-left" class="w-4 h-4 inline-block"></i>
                                 Previous
                             </a>
@@ -464,7 +546,7 @@
                                     </span>
                                 @else
                                     <a href="{{ $url }}"
-                                       class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium text-sm hover:bg-blue-100 hover:text-blue-800 transition-colors">
+                                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium text-sm hover:bg-blue-100 hover:text-blue-800 transition-colors">
                                         {{ $page }}
                                     </a>
                                 @endif
@@ -474,12 +556,13 @@
                         {{-- Next Button --}}
                         @if ($orders->hasMorePages())
                             <a href="{{ $orders->nextPageUrl() }}"
-                               class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
+                                class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
                                 Next
                                 <i data-feather="chevron-right" class="w-4 h-4 inline-block"></i>
                             </a>
                         @else
-                            <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed">
+                            <span
+                                class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed">
                                 Next
                                 <i data-feather="chevron-right" class="w-4 h-4 inline-block"></i>
                             </span>

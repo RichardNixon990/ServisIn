@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\Technician;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
@@ -28,7 +29,8 @@ class TechnicianController extends Controller
 
         ];
         $orders = Order::where('status', 'pending')->paginate(9);
-        return view('technician.technician', compact('orders', 'stats'));
+        $technicianStatus = Auth::user()->technician->status ?? 'offline';
+        return view('technician.technician', compact('orders', 'stats', 'technicianStatus'));
 
         } catch (Exception $e) {
             return response()->json([

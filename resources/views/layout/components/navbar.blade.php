@@ -52,11 +52,7 @@
         <div class="hidden md:flex items-center space-x-8 font-medium text-gray-700">
             @if (Auth::check())
                 @if (Auth::user()->role->nama_role == 'admin')
-                @elseif(Auth::user()->role->nama_role == 'technician')
-                    <a href="{{ route('technicianDashboard') }}"
-                        class="hover:text-blue-600 transition-colors duration-200">Dashboard</a>
-                    <a href="{{ route('technicianmyOrder') }}"
-                        class="hover:text-blue-600 transition-colors duration-200">My Order</a>
+
                 @endif
             @endif
         </div>
@@ -158,14 +154,22 @@
 
                             <!-- Menu Items -->
                             <div class="py-2">
-                                <a href="{{ route('profileindex') }}"
+                                <a href="{{ route('technicianDashboard') }}"
                                     class="flex items-center px-4 py-3 hover:bg-blue-50 transition-colors group">
                                     <div
                                         class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-blue-200 transition-colors">
-                                        <i data-feather="user" class="w-4 h-4 text-blue-600"></i>
+                                        <i data-feather="home" class="w-4 h-4 text-blue-600"></i>
                                     </div>
-                                    <span class="text-sm font-medium text-gray-700 group-hover:text-blue-600">Profil
-                                        Saya</span>
+                                    <span class="text-sm font-medium text-gray-700 group-hover:text-blue-600">Dashboard</span>
+                                </a>
+
+                                <a href="{{ route('technicianmyOrder') }}"
+                                    class="flex items-center px-4 py-3 hover:bg-green-50 transition-colors group">
+                                    <div
+                                        class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-green-200 transition-colors">
+                                        <i data-feather="clipboard" class="w-4 h-4 text-green-600"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700 group-hover:text-green-600">My Order</span>
                                 </a>
                             </div>
 
@@ -328,10 +332,6 @@
                     <a href="{{ route('technicianmyOrder') }}" class="hover:text-blue-600 flex items-center">
                         <i data-feather="clipboard" class="w-4 h-4 mr-3"></i>
                         My Order
-                    </a>
-                    <a href="{{ route('profileindex') }}" class="hover:text-blue-600 flex items-center">
-                        <i data-feather="user" class="w-4 h-4 mr-3"></i>
-                        Profil Saya
                     </a>
                 @endif
 
