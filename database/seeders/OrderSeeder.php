@@ -28,7 +28,7 @@ class OrderSeeder extends Seeder
             // jumlah pesanan per use
             $orderCount = rand(2, 6);
 
-            for ($i = 0; $i < 100; $i++) {
+            for ($i = 0; $i < 10; $i++) {
                 Order::create([
                     'user_id' => $user->id,
                     'device_type' => ['laptop', 'hp', 'tablet'][rand(0, 2)],

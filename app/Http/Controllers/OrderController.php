@@ -10,6 +10,7 @@ use App\Services\AIServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\ListKerusakan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\FileUploadRepository;
@@ -84,6 +85,8 @@ class OrderController extends Controller
                 Log::info($spareparts);
                 $estimatedCost = data_get($data, 'estimasi.total_estimasi');
                 Log::info($estimatedCost);
+                // dd($sparepartsName, $sparepartsPrice);
+                // dd($AiResponse);
             }
         } catch (Exception $e) {
             Log::error("ERROR CALL API");
@@ -106,6 +109,17 @@ class OrderController extends Controller
             // $orders->notes = $request->input('notes') ?? null;
             // dd($orders);
             $orders->save();
+
+            if (is_array($spareparts) && !empty($spareparts)) {
+                foreach ($spareparts as $part) {
+                    if (isset($part['nama']) && isset($part['harga'])) {
+                        $orders->listKerusakan()->create([
+                            'nama_barang' => $part['nama'],
+                            'harga' => $part['harga'],
+                        ]);
+                    }
+                }
+            };
 
             if ($request->hasFile('photo')) {
                 $orders->photo = $this->upload->upload($request->file('photo'), 'orders');
