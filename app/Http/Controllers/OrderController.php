@@ -70,7 +70,8 @@ class OrderController extends Controller
         try {
             $AiResponse = $this->AIServices->estimasiRepair(
                 $request->issue_description,
-                $request->brand
+                $request->brand,
+                $request->device_type
             );
 
             $text = $AiResponse['candidates'][0]['content']['parts'][0]['text'] ?? null;
@@ -88,6 +89,7 @@ class OrderController extends Controller
                 // dd($sparepartsName, $sparepartsPrice);
                 // dd($AiResponse);
             }
+            // dd($estimatedCost, $spareparts);
         } catch (Exception $e) {
             Log::error("ERROR CALL API");
             Log::error($e);

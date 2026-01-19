@@ -4,6 +4,7 @@ namespace App\Services;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
+use Psy\Util\Str;
 use Throwable;
 
 class AIServices
@@ -21,7 +22,7 @@ class AIServices
         ]);
     }
 
-    public function estimasiRepair(string $deskripsi, string $merk): ?array
+    public function estimasiRepair(string $deskripsi, string $merk, String $device_type): ?array
     {
         Log::info('DESKRIPSI:', [$deskripsi]);
         Log::info('MERK:', [$merk]);
@@ -43,7 +44,7 @@ Struktur WAJIB:
   }
 }
 
-GUNAKAN ESTIMASI HARGA OFFICIAL STORE ATAU HARGA PASAR UMUM DI INDONESIA TERUTAMA PULAU JAWA
+GUNAKAN ESTIMASI HARGA OFFICIAL STORE ATAU HARGA PASAR UMUM DI INDONESIA TERUTAMA PULAU JAWA, DAN PASTIKAN CROSSCHECK HARGA DI BEBERAPA SUMBER. JANGAN KEMAHALAN JANGAN KEMURAHAN, PASTIKAN DEVICE SESUAI DENGAN MERK DAN JENIS DEVICE BERDASARKAN DATA.
 PROMPT;
 
         $body = [
@@ -51,7 +52,7 @@ PROMPT;
                 [
                     'parts' => [
                         [
-                            'text' => "(Deskripsi Kerusakan: {$deskripsi}, Merk HP: {$merk})\n{$prompt}"
+                            'text' => "JENIS DEVICE :{$device_type} (DESKRIPSI KERUSAKAN : {$deskripsi}, MERK DEVICE: {$merk})\n{$prompt}"
                         ]
                     ]
                 ]

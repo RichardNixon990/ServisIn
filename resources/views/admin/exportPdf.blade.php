@@ -200,24 +200,26 @@
         <strong>{{ date('d M Y') }}</strong></p>
 
     <!-- Summary -->
-    <div class="summary">
-        <div class="card">
-            <strong>Total Pesanan</strong>
-            <div class="value">{{$totalStatus}}</div>
-        </div>
-        <div class="card green">
-            <strong>Selesai</strong>
-            <div class="value">{{$statusStats['completed']}}</div>
-        </div>
-        <div class="card amber">
-            <strong>Sedang Dikerjakan</strong>
-            <div class="value">{{$statusStats['on_process']}}</div>
-        </div>
-        <div class="card red">
-            <strong>Dibatalkan</strong>
-            <div class="value">{{$statusStats['cancelled']}}</div>
-        </div>
-    </div>
+    <table style="width: 100%; border-spacing: 10px; margin-bottom: 25px; border-collapse: separate;">
+        <tr>
+            <td style="width: 24%; padding: 15px; background: #f1f5f9; border-radius: 6px; text-align: center; border: 1px solid #cbd5e1;">
+                <strong style="display: block; font-size: 10pt; color: #475569; margin-bottom: 8px;">Total Pesanan</strong>
+                <div style="font-size: 24pt; font-weight: bold; color: #1f2937;">{{$totalStatus}}</div>
+            </td>
+            <td style="width: 24%; padding: 15px; background: #d1fae5; border-radius: 6px; text-align: center; border: 1px solid #10b981;">
+                <strong style="display: block; font-size: 10pt; color: #065f46; margin-bottom: 8px;">Selesai</strong>
+                <div style="font-size: 24pt; font-weight: bold; color: #047857;">{{$statusStats['completed']}}</div>
+            </td>
+            <td style="width: 24%; padding: 15px; background: #fef3c7; border-radius: 6px; text-align: center; border: 1px solid #f59e0b;">
+                <strong style="display: block; font-size: 10pt; color: #92400e; margin-bottom: 8px;">Sedang Dikerjakan</strong>
+                <div style="font-size: 24pt; font-weight: bold; color: #b45309;">{{$statusStats['on_process']}}</div>
+            </td>
+            <td style="width: 24%; padding: 15px; background: #fee2e2; border-radius: 6px; text-align: center; border: 1px solid #ef4444;">
+                <strong style="display: block; font-size: 10pt; color: #991b1b; margin-bottom: 8px;">Dibatalkan</strong>
+                <div style="font-size: 24pt; font-weight: bold; color: #b91c1c;">{{$statusStats['cancelled']}}</div>
+            </td>
+        </tr>
+    </table>
 
     <h2>Statistik Jenis Perangkat</h2>
 

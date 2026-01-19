@@ -6,9 +6,11 @@ use Exception;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Order;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Rating;
+use App\Models\Payment;
 use App\Models\Technician;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminController extends Controller
 {
@@ -66,8 +68,9 @@ class AdminController extends Controller
             $users = User::withCount('orders')->where('role_id', $role->id)->latest()->paginate(10);
             $totalUser = User::where('role_id', $role->id)->count();
             $totalTechnician = Technician::count();
-            return view('admin.dashboardAdmin', compact('orders', 'users', 'barDevice', 'deviceStats', 'technicians', 'barStatus', 'statusStats', 'totalStatus','totalUser','completedToday', 'totalTechnician' ));
 
+            $rating = Rating::with(['user', 'technician.user', 'order'])->latest()->paginate(10);
+            return view('admin.dashboardAdmin', compact('orders', 'users', 'barDevice', 'deviceStats', 'technicians', 'barStatus', 'statusStats', 'totalStatus','totalUser','completedToday', 'totalTechnician', 'rating' ));
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Internal Server Error',
@@ -131,5 +134,5 @@ class AdminController extends Controller
         // return view('admin.exportPdf', compact('orders', 'deviceStats', 'totalOrders', 'technicians', 'statusStats', 'totalStatus'));
     }
 
-    
+
 }

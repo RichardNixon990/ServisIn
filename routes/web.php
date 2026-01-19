@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TechnicianController;
 
@@ -46,6 +47,7 @@ Route::group(['prefix' => 'order', 'as' => 'order', 'middleware' => ['auth.check
     Route::post('/update/{orders}', [OrderController::class, 'update'])->name('update');
     Route::post('/cancel/{orders}', [OrderController::class, 'cancel'])->name('cancel');
     Route::delete('/delete/{orders}', [OrderController::class, 'delete'])->name('delete');
+    Route::put('/payment/{payment}', [PaymentController::class, 'comfirmPayment'])->name('confirmPayment');
 });
 
 Route::group(['prefix' => 'rating', 'as' => 'rating', 'middleware' => ['auth.check']], function(){
@@ -75,5 +77,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin', 'middleware' => ['auth.check
     Route::get('/showOrder{technician}', [AdminController::class, 'showTechnicianOrders'])->name('showOrder');
     Route::get('/report-order', [AdminController::class, 'exportPdf'])->name('exportPdf');
     Route::delete('/delete{technician}', [TechnicianController::class, 'delete'])->name('delete');
-    Route::put('/technician/{technician}', [TechnicianController::class, 'update'])->name('updateTechnician');
+    Route::put('/comfirmPayment/{payments}', [PaymentController::class, 'adminConfirmPayment'])->name('updatePayment');
 });

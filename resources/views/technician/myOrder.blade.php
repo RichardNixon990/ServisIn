@@ -144,7 +144,7 @@
             </div>
 
             <!-- ===== ORDERS GRID ===== -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="ordersContainer">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="ordersContainer">
                 @forelse($orders as $order)
                     <div class="order-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-scale-in group"
                         data-status="{{ $order->status }}" style="animation-delay: {{ $loop->index * 0.1 }}s">
@@ -258,8 +258,7 @@
                                             class="flex items-start gap-2 p-2.5 bg-blue-50 rounded-lg border border-blue-200">
                                             <i data-feather="info" class="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0"></i>
                                             <p class="text-xs text-blue-700 leading-relaxed">
-                                                <span class="font-semibold">Estimasi awal:</span> Biaya dapat berubah
-                                                setelah pemeriksaan detail
+                                                <span class="font-semibold">Estimasi awal:</span> Biaya hanya sebatas perkiraan harga menurut AI
                                             </p>
                                         </div>
                                     @else
@@ -444,24 +443,44 @@
                         <!-- ACTION BUTTON -->
                         <div class="px-6 pb-6 relative">
                             @if ($order->status === 'on_process')
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-r rounded-xl blur opacity-30 group-hover:opacity-70 transition-opacity">
-                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl blur opacity-30 group-hover:opacity-70 transition-opacity"></div>
                                 <button type="button" onclick="openCompleteModal({{ $order->id }})"
                                     class="relative w-full py-4 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 text-white font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center group">
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer rounded-xl">
-                                    </div>
+                                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer rounded-xl"></div>
                                     <i data-feather="check-square" class="w-5 h-5 mr-2 group-hover:animate-bounce"></i>
                                     <span class="text-base">Tandai Selesai</span>
-                                    <i data-feather="arrow-right"
-                                        class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                    <i data-feather="arrow-right" class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"></i>
                                 </button>
+                            @elseif($order->status === 'completed' && $order->payment && $order->payment->payment_status === 'unpaid')
+                                <form action={{route('orderconfirmPayment', $order->Payment)}} method="POST" onsubmit="event.preventDefault();
+                                    Swal.fire({
+                                        title: 'Konfirmasi Pembayaran?',
+                                        text: 'Pastikan Anda sudah menerima pembayaran dari pelanggan sebelum melanjutkan!',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Ya, Sudah Bayar!',
+                                        cancelButtonText: 'Batal'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            event.target.submit();
+                                        }
+                                    });">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="absolute inset-0 bg-gradient-to-r from-green-500 to-green-700 rounded-xl blur opacity-30 group-hover:opacity-70 transition-opacity"></div>
+                                    <button type="submit"
+                                        class="relative w-full py-4 bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:from-green-600 hover:via-green-700 hover:to-green-800 text-white font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center group">
+                                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer rounded-xl"></div>
+                                        <i data-feather="dollar-sign" class="w-5 h-5 mr-2"></i>
+                                        <span class="text-base">Konfirmasi Pembayaran</span>
+                                    </button>
+                                </form>
                             @else
-                                <div
-                                    class="flex-1 py-4 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 font-bold rounded-xl text-center flex items-center justify-center border-2 border-blue-200">
-                                    <i data-feather="check-circle" class="w-5 h-5 mr-2"></i>
-                                    Pesanan Selesai
+                                <div class="w-full py-4 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 font-bold rounded-xl text-center flex items-center justify-center border-2 border-gray-200 cursor-default">
+                                    <i data-feather="check-circle" class="w-5 h-5 mr-2 text-green-500"></i>
+                                    Pesanan Selesai & Lunas
                                 </div>
                             @endif
                         </div>
