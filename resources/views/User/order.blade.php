@@ -2,7 +2,7 @@
 @section('content')
     <div class="min-h-screen bg-gray-50 py-8 px-6 md:pt-32">
         <div class="max-w-4xl mx-auto">
-            <!-- Header Section -->
+            
             <div class="mb-8">
                 <a href={{ route('orderlist') }}
                     class="inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors duration-200 mb-6 group">
@@ -20,9 +20,9 @@
                 </div>
             </div>
 
-            <!-- Form Card -->
+            
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
-                <!-- Form Header -->
+                
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-6">
                     <h2 class="text-2xl font-bold text-white flex items-center">
                         <i data-feather="clipboard" class="w-6 h-6 mr-3"></i>
@@ -31,10 +31,10 @@
                 </div>
 
                 <form action="{{ route('orderstore') }}" method="POST" enctype="multipart/form-data"
-                    class="p-8 md:p-10 space-y-6" id="order-form">
+                    class="p-8 md:p-10 space-y-6" id="order-form" data-errors="{{ $errors->any() ? json_encode($errors->all()) : '[]' }}">
                     @csrf
                     <div class="grid md:grid-cols-2 gap-6">
-                        <!-- Device Type -->
+                        
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2 flex items-center">
                                 <i data-feather="smartphone" class="w-4 h-4 mr-2 text-blue-600"></i>
@@ -53,7 +53,7 @@
                             </div>
                         </div>
 
-                        <!-- Device Brand -->
+                        
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2 flex items-center">
                                 <i data-feather="tag" class="w-4 h-4 mr-2 text-blue-600"></i>
@@ -64,7 +64,7 @@
                         </div>
                     </div>
 
-                    <!-- Damage Description -->
+                    
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2 flex items-center">
                             <i data-feather="alert-circle" class="w-4 h-4 mr-2 text-blue-600"></i>
@@ -75,9 +75,9 @@
                             class="w-full px-4 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 resize-none hover:border-gray-300"></textarea>
                     </div>
 
-                    <!-- Schedule & Address -->
+                    
                     <div class="grid md:grid-cols-2 gap-6">
-                        <!-- Schedule Date -->
+                        
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2 flex items-center">
                                 <i data-feather="calendar" class="w-4 h-4 mr-2 text-blue-600"></i>
@@ -87,7 +87,7 @@
                                 class="w-full px-4 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300">
                         </div>
 
-                        <!-- Address -->
+                        
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2 flex items-center">
                                 <i data-feather="map-pin" class="w-4 h-4 mr-2 text-blue-600"></i>
@@ -102,7 +102,7 @@
                             </p>
                         </div>
 
-                        <!-- Photo Upload -->
+                        
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2 flex items-center">
                                 <i data-feather="image" class="w-4 h-4 mr-2 text-blue-600"></i>
@@ -116,7 +116,7 @@
                                     accept="image/png,image/jpeg,image/jpg"
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
 
-                                <!-- Upload Icon (Default) -->
+                                
                                 <div class="flex flex-col items-center" id="upload-placeholder">
                                     <div
                                         class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
@@ -126,7 +126,7 @@
                                     <p class="text-xs text-gray-500">PNG, JPG atau JPEG (Max. 2MB)</p>
                                 </div>
 
-                                <!-- Preview Image (Hidden by default) -->
+                                
                                 <div class="hidden" id="image-preview-container">
                                     <img src="" alt="Preview" id="image-preview"
                                         class="max-h-48 mx-auto rounded-lg shadow-md mb-3">
@@ -140,7 +140,7 @@
                             </div>
                         </div>
 
-                        <!-- Submit -->
+                        
                         <div class="pt-4">
                             <button type="submit"
                                 class="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center group">
@@ -155,308 +155,12 @@
         </div>
     </div>
 
-    <!-- SweetAlert2 CDN -->
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('order-form');
-            const input = document.getElementById('photo-input');
-            const uploadArea = document.getElementById('upload-area');
-            const placeholder = document.getElementById('upload-placeholder');
-            const previewContainer = document.getElementById('image-preview-container');
-            const preview = document.getElementById('image-preview');
-            const fileName = document.getElementById('file-name');
-            const removeBtn = document.getElementById('remove-image');
-
-            // Set minimum date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('schedule_date').setAttribute('min', today);
-
-            // Form validation with SweetAlert
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                // Get form values
-                const deviceType = document.getElementById('device_type').value;
-                const brand = document.getElementById('brand').value.trim();
-                const issueDescription = document.getElementById('issue_description').value.trim();
-                const scheduleDate = document.getElementById('schedule_date').value;
-                const address = document.getElementById('address').value.trim();
-
-                // Validation checks
-                if (!deviceType) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Jenis Perangkat Belum Dipilih',
-                        text: 'Silakan pilih jenis perangkat terlebih dahulu!',
-                        confirmButtonColor: '#2563eb'
-                    });
-                    return;
-                }
-
-                if (!brand) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Merek Perangkat Kosong',
-                        text: 'Silakan isi merek perangkat Anda!',
-                        confirmButtonColor: '#2563eb'
-                    });
-                    return;
-                }
-
-                if (brand.length < 2) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Merek Terlalu Pendek',
-                        text: 'Merek perangkat minimal 2 karakter!',
-                        confirmButtonColor: '#2563eb'
-                    });
-                    return;
-                }
-
-                if (!issueDescription) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Deskripsi Kerusakan Kosong',
-                        text: 'Silakan jelaskan masalah yang dialami perangkat Anda!',
-                        confirmButtonColor: '#2563eb'
-                    });
-                    return;
-                }
-
-                if (issueDescription.length < 8) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Deskripsi Terlalu Singkat',
-                        text: 'Deskripsi kerusakan minimal 10 karakter agar teknisi dapat memahami masalahnya!',
-                        confirmButtonColor: '#2563eb'
-                    });
-                    return;
-                }
-
-                if (!scheduleDate) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Tanggal Belum Dipilih',
-                        text: 'Silakan pilih tanggal penjadwalan perbaikan!',
-                        confirmButtonColor: '#2563eb'
-                    });
-                    return;
-                }
-
-                // Check if date is in the past
-                const selectedDate = new Date(scheduleDate);
-                const todayDate = new Date(today);
-                if (selectedDate < todayDate) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Tanggal Tidak Valid',
-                        text: 'Tanggal penjadwalan tidak boleh di masa lalu!',
-                        confirmButtonColor: '#2563eb'
-                    });
-                    return;
-                }
-
-                if (!address) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Alamat Kosong',
-                        text: 'Silakan isi alamat perbaikan!',
-                        confirmButtonColor: '#2563eb'
-                    });
-                    return;
-                }
-
-                // Confirmation before submit
-                Swal.fire({
-                    title: 'Konfirmasi Pesanan',
-                    html: `
-                        <div class="text-left space-y-2">
-                            <p><strong>Perangkat:</strong> ${deviceType.toUpperCase()} - ${brand}</p>
-                            <p><strong>Tanggal:</strong> ${new Date(scheduleDate).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                            <p><strong>Alamat:</strong> ${address}</p>
-                        </div>
-                        <p class="mt-4 text-sm text-gray-600">Apakah data yang Anda masukkan sudah benar?</p>
-                    `,
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#2563eb',
-                    cancelButtonColor: '#6b7280',
-                    confirmButtonText: 'Ya, Kirim Pesanan',
-                    cancelButtonText: 'Periksa Kembali',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Show loading
-                        Swal.fire({
-                            title: 'Mengirim Pesanan...',
-                            html: 'Mohon tunggu sebentar',
-                            allowOutsideClick: false,
-                            didOpen: () => {
-                                Swal.showLoading();
-                            }
-                        });
-
-                        // Submit form
-                        form.submit();
-                    }
-                });
-            });
-
-            // Handle file selection
-            input.addEventListener('change', function(e) {
-                handleFile(e.target.files[0]);
-            });
-
-            // Drag & Drop
-            uploadArea.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                uploadArea.classList.add('border-blue-500', 'bg-blue-100');
-            });
-
-            uploadArea.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                uploadArea.classList.remove('border-blue-500', 'bg-blue-100');
-            });
-
-            uploadArea.addEventListener('drop', function(e) {
-                e.preventDefault();
-                uploadArea.classList.remove('border-blue-500', 'bg-blue-100');
-
-                const file = e.dataTransfer.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    const dataTransfer = new DataTransfer();
-                    dataTransfer.items.add(file);
-                    input.files = dataTransfer.files;
-                    handleFile(file);
-                }
-            });
-
-            // Remove image
-            removeBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-
-                Swal.fire({
-                    title: 'Hapus Foto?',
-                    text: 'Foto yang sudah diupload akan dihapus',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#ef4444',
-                    cancelButtonColor: '#6b7280',
-                    confirmButtonText: 'Ya, Hapus',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        input.value = '';
-                        placeholder.classList.remove('hidden');
-                        previewContainer.classList.add('hidden');
-                        preview.src = '';
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Foto Dihapus',
-                            text: 'Foto berhasil dihapus',
-                            timer: 1500,
-                            showConfirmButton: false
-                        });
-                    }
-                });
-            });
-
-            function handleFile(file) {
-                if (!file) return;
-
-                // Validate file type
-                const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-                if (!validTypes.includes(file.type)) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Format File Tidak Valid',
-                        text: 'Hanya file PNG, JPG, atau JPEG yang diperbolehkan!',
-                        confirmButtonColor: '#2563eb'
-                    });
-                    input.value = '';
-                    return;
-                }
-
-                // Validate file size (2MB)
-                const maxSize = 2048 * 1024;
-                if (file.size > maxSize) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ukuran File Terlalu Besar',
-                        html: `
-                            <p>Ukuran file: <strong>${(file.size / 1024 / 1024).toFixed(2)} MB</strong></p>
-                            <p>Maksimal: <strong>2 MB</strong></p>
-                            <p class="mt-2 text-sm text-gray-600">Silakan kompres atau pilih foto yang lebih kecil</p>
-                        `,
-                        confirmButtonColor: '#2563eb'
-                    });
-                    input.value = '';
-                    return;
-                }
-
-                // Show preview
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    fileName.textContent = file.name;
-                    placeholder.classList.add('hidden');
-                    previewContainer.classList.remove('hidden');
-
-                    // Success notification
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Foto Berhasil Diupload',
-                        text: file.name,
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
-                };
-                reader.readAsDataURL(file);
-            }
-
-            // Reinitialize Feather icons
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-        });
-
-        // Display Laravel validation errors with SweetAlert
-        @if ($errors->any())
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi Kesalahan',
-                html: `
-                    <ul class="text-left">
-                        @foreach ($errors->all() as $error)
-                            <li class="text-sm text-red-600">• {{ $error }}</li>
-                        @endforeach
-                    </ul>
-                `,
-                confirmButtonColor: '#2563eb'
-            });
-        @endif
-
-        // Display success message if exists
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: '{{ session('success') }}',
-                confirmButtonColor: '#2563eb'
-            });
-        @endif
-
-        // Display error message if exists
-        @if (session('error'))
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal!',
-                text: '{{ session('error') }}',
-                confirmButtonColor: '#2563eb'
-            });
-        @endif
-    </script>
+    
 @endsection
+@push('script')
+<script src="{{ asset('js/User/order.js') }}" defer></script>
+@endpush
+

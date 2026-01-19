@@ -1,14 +1,14 @@
 @extends('layout.main')
 @section('content')
 
-<!-- Background Decorative -->
+
 <div class="absolute inset-0 -z-10 overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-br from-blue-50/60 to-gray-100/60"></div>
     <div class="absolute top-1/3 left-1/4 w-48 h-48 md:w-64 md:h-64 rounded-full bg-blue-200/30 blur-3xl"></div>
     <div class="absolute bottom-1/3 right-1/4 w-48 h-48 md:w-64 md:h-64 rounded-full bg-blue-300/20 blur-3xl"></div>
 </div>
 
-<!-- Register Wrapper -->
+
 <div class="flex justify-center mt-28 mb-12 px-4">
     <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-3xl border border-gray-100 transition-all duration-300 hover:shadow-2xl">
 
@@ -79,3 +79,4 @@
 </div>
 
 @endsection
+

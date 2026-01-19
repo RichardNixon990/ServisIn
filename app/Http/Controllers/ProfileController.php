@@ -47,7 +47,8 @@ class ProfileController extends Controller
 
     public function updatePassword(Request $request){
         try {
-             $user = Auth::user();
+            /** @var \App\Models\User $user */
+            $user = Auth::user();
             $validate = Validator::make($request->all(), [
                'old_password' => 'required',
                'new_password' => [ ['required',
@@ -60,28 +61,19 @@ class ProfileController extends Controller
            ]);
 
            if (!Hash::check($request->old_password, $user->password)) {
-           return response()->json([
-               'success' => false,
-               'message' => 'Password lama tidak sesuai'
-           ], 422);
-        }
+               return back()->with('error', 'Password lama tidak sesuai');
+           }
 
            if (Hash::check($request->new_password, $user->password)) {
-           return response()->json([
-               'success' => false,
-               'message' => 'Password baru tidak boleh sama dengan password lama'
-           ], 422);
-        }
+               return back()->with('error', 'Password baru tidak boleh sama dengan password lama');
+           }
            $user->password = Hash::make($request->new_password);
            $user->save();
 
            return back()->with('success', 'berhasil mengupdate user');
 
         } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Internal Server Error',
-                'error' => $e->getMessage()
-            ], 500);
+            return back()->with('error', 'Internal Server Error: ' . $e->getMessage());
         }
     }
 

@@ -1,0 +1,187 @@
+
+        @page {
+            margin: 20mm;
+            size: A4;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            margin-bottom: 0;
+            color: #1f2937;
+        }
+
+        h1 {
+            font-size: 22pt;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 14pt;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #2563eb;
+        }
+
+        .period {
+            text-align: center;
+            font-size: 11pt;
+            margin-bottom: 20px;
+            color: #6b7280;
+        }
+
+        .period strong {
+            color: #1f2937;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            width: 23%;
+            padding: 15px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #cbd5e1;
+        }
+
+        .card strong {
+            display: block;
+            font-size: 10pt;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .card .value {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .card.green {
+            background: #d1fae5;
+            border-color: #10b981;
+        }
+
+        .card.amber {
+            background: #fef3c7;
+            border-color: #f59e0b;
+        }
+
+        .card.red {
+            background: #fee2e2;
+            border-color: #ef4444;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 10pt;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #9ca3af;
+            padding: 10px 8px;
+        }
+
+        .table th {
+            background: #e2e8f0;
+            font-weight: bold;
+            text-align: left;
+            color: #1f2937;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background: white;
+        }
+
+        .table td {
+            color: #374151;
+        }
+
+        .table .no-col {
+            width: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: #6b7280;
+        }
+
+        /* Status Styling */
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 9pt;
+            font-weight: 600;
+        }
+
+        .status.selesai {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status.dikerjakan {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status.dibatalkan {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+
+        .sign-box {
+            width: 30%;
+            text-align: center;
+        }
+
+        .sign-box p {
+            font-size: 10pt;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .sign-box .line {
+            margin-top: 60px;
+            border-top: 2px solid #1f2937;
+            padding-top: 5px;
+            color: #1f2937;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 8pt;
+            color: #9ca3af;
+        }
+
+        @media print {
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    

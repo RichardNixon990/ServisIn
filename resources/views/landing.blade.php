@@ -1,7 +1,7 @@
 @extends('layout.main')
 @section('content')
 
-    <!-- Hero Section -->
+    
     <section class="py-16 md:py-24 px-6 md:pt-32">
         <div class="max-w-4xl mx-auto text-center">
             <div class="space-y-6">
@@ -47,7 +47,7 @@
         </div>
     </section>
 
-    <!-- Features Section -->
+    
     <section class="py-16 bg-white">
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-12">Mengapa Memilih ServisIn</h2>
@@ -87,7 +87,7 @@
         </div>
     </section>
 
-    <!-- How It Works Section -->
+    
     <section id="how-it-works" class="py-16 bg-gray-50">
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-16">Cara Kerja</h2>
@@ -114,7 +114,7 @@
         </div>
     </section>
 
-    <!-- Testimonials Section -->
+    
     <section class="py-16 bg-white">
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-12">Apa Kata Pelanggan Kami</h2>
@@ -123,7 +123,7 @@
                 @foreach ($testimonials as $testimonial)
                     <div class="bg-gray-50 p-8 rounded-2xl">
                         <div class="flex items-center mb-6">
-                            {{-- Avatar (inisial user) --}}
+                            
                             <div
                                 class="w-12 h-12 rounded-full bg-gray-300 mr-4
                         flex items-center justify-center font-bold text-lg">
@@ -135,7 +135,7 @@
                                     {{ $testimonial->user->name ?? $testimonial->name }}
                                 </h4>
 
-                                {{-- Bintang --}}
+                                
                                 <div class="flex text-yellow-400">
                                     @for ($s = 1; $s <= 5; $s++)
                                         <i data-feather="star" class="w-4 h-4 fill-current"></i>
@@ -144,7 +144,7 @@
                             </div>
                         </div>
 
-                        {{-- Komentar --}}
+                        
                         <p class="text-gray-600 italic">
                             "{{ $testimonial->comment }}"
                         </p>
@@ -156,7 +156,7 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
+    
     <section id="book" class="py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div class="max-w-4xl mx-auto text-center px-6">
             <h2 class="text-3xl font-bold mb-6">Siap memperbaiki perangkat Anda?</h2>
@@ -169,3 +169,4 @@
         </div>
     </section>
 @endsection
+

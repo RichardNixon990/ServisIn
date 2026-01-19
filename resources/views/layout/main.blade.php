@@ -19,7 +19,7 @@
 <body class="bg-gray-50 font-inter min-h-screen flex flex-col overflow-x-hidden">
     @include('layout.components.navbar')
     @yield('content')
-    {{-- @yield('script') --}}
+    
 
 </body>
 <script>
@@ -29,3 +29,4 @@
 @stack('script')
 
 </html>
+

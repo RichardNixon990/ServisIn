@@ -1,43 +1,11 @@
 @extends('layout.main')
 
 @section('content')
-    <style>
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .animate-slide-in {
-            animation: slideIn 0.6s ease-out;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/User/profile.css') }}">
 
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-8 px-4 sm:px-6 lg:px-8 pt-28 md:pt-32">
         <div class="max-w-7xl mx-auto">
-            <!-- Header Section -->
+            
             <div class="flex items-center justify-between mb-8 animate-fade-in">
                 <div>
                     <a href="{{ route('orderlist') }}"
@@ -53,14 +21,14 @@
                 </div>
             </div>
 
-            <!-- Main Grid -->
+            
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Left Sidebar - Profile Card -->
+                
                 <div class="lg:col-span-1 space-y-6 animate-slide-in">
-                    <!-- Profile Avatar & Info Card -->
+                    
                     <div
                         class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300">
-                        <!-- Avatar -->
+                        
                         <div class="flex flex-col items-center mb-6 pb-6 border-b border-gray-200">
                             <div
                                 class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center text-white font-bold text-3xl shadow-lg mb-4 ring-4 ring-blue-100">
@@ -73,7 +41,7 @@
                             </p>
                         </div>
 
-                        <!-- Contact Info -->
+                        
                         <div class="space-y-3 mb-6">
                             <div class="flex items-center text-sm p-3 bg-blue-50 rounded-xl">
                                 <div
@@ -97,7 +65,7 @@
                             </div>
                         </div>
 
-                        <!-- Quick Actions -->
+                        
                         <div class="space-y-3">
                             <a href="{{ route('orderlist') }}"
                                 class="group w-full flex items-center justify-center px-4 py-3.5 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
@@ -108,7 +76,7 @@
                         </div>
                     </div>
 
-                    <!-- Info Box - Tips Keamanan -->
+                    
                     <div class="bg-gradient-to-br from-green-500 to-green-700 rounded-2xl shadow-xl p-6 text-white">
                         <div class="flex items-start mb-4">
                             <div
@@ -137,9 +105,9 @@
                     </div>
                 </div>
 
-                <!-- Right Content -->
+                
                 <div class="lg:col-span-2 space-y-6 animate-fade-in" style="animation-delay: 0.2s">
-                    <!-- Personal Information Card -->
+                    
                     <div
                         class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300">
                         <div class="flex items-center justify-between mb-6">
@@ -162,7 +130,7 @@
                             @csrf
                             @method('PUT')
 
-                            <!-- Name -->
+                            
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                                     <i data-feather="user" class="w-4 h-4 mr-1.5 text-gray-500"></i>
@@ -172,7 +140,7 @@
                                     class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all disabled:bg-gray-50 disabled:text-gray-600">
                             </div>
 
-                            <!-- Email -->
+                            
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                                     <i data-feather="mail" class="w-4 h-4 mr-1.5 text-gray-500"></i>
@@ -182,7 +150,7 @@
                                     class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all disabled:bg-gray-50 disabled:text-gray-600">
                             </div>
 
-                            <!-- Phone -->
+                            
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                                     <i data-feather="phone" class="w-4 h-4 mr-1.5 text-gray-500"></i>
@@ -193,7 +161,7 @@
                                     class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all disabled:bg-gray-50 disabled:text-gray-600">
                             </div>
 
-                            <!-- Address -->
+                            
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                                     <i data-feather="map-pin" class="w-4 h-4 mr-1.5 text-gray-500"></i>
@@ -203,7 +171,7 @@
                                     class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all disabled:bg-gray-50 disabled:text-gray-600 resize-none">{{ Auth::user()->address ?? '' }}</textarea>
                             </div>
 
-                            <!-- Save Buttons (Hidden by default) -->
+                            
                             <div id="personalButtons" class="hidden pt-4 border-t border-gray-200">
                                 <div class="flex gap-3 justify-end">
                                     <button type="button" onclick="toggleEdit('personal')"
@@ -221,7 +189,7 @@
                         </form>
                     </div>
 
-                    <!-- Security Card -->
+                    
                     <div
                         class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300">
                         <div class="flex items-center mb-6">
@@ -232,7 +200,7 @@
                         </div>
 
                         <div class="space-y-3">
-                            <!-- Change Password -->
+                            
                             <button onclick="openPasswordModal()"
                                 class="w-full group flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl hover:shadow-md transition-all cursor-pointer border-2 border-transparent hover:border-purple-200">
                                 <div class="flex items-center">
@@ -251,7 +219,7 @@
                         </div>
                     </div>
 
-                    <!-- Logout Card -->
+                    
                     <div
                         class="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl shadow-xl p-6 border-2 border-red-200 hover:shadow-2xl transition-all duration-300">
                         <div class="flex items-center mb-4">
@@ -282,11 +250,11 @@
             </div>
         </div>
     </div>
-    <!-- Modal Ubah Password -->
+    
     <div id="changePasswordModal"
         class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all">
-            <!-- Modal Header -->
+            
             <div class="bg-gradient-to-r from-purple-600 to-purple-800 rounded-t-2xl p-6">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
@@ -305,10 +273,10 @@
                 </div>
             </div>
 
-            <!-- Modal Body -->
+            
             <form id="changePasswordForm" class="p-6" action="{{ route('updatePassword') }}" method="POST">
                 @csrf
-                <!-- Password Lama -->
+                
                 <div class="mb-4">
                     <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                         <i data-feather="lock" class="w-4 h-4 mr-1.5 text-gray-500"></i>
@@ -324,7 +292,7 @@
                     </div>
                 </div>
 
-                <!-- Password Baru -->
+                
                 <div class="mb-4">
                     <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                         <i data-feather="key" class="w-4 h-4 mr-1.5 text-gray-500"></i>
@@ -338,11 +306,11 @@
                             <i data-feather="eye" class="w-5 h-5"></i>
                         </button>
                     </div>
-                    <!-- Password Hint -->
+                    
                     <p class="mt-2 text-xs text-gray-500">Minimal 8 karakter, kombinasi huruf dan angka</p>
                 </div>
 
-                <!-- Konfirmasi Password Baru -->
+                
                 <div class="mb-6">
                     <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                         <i data-feather="check-circle" class="w-4 h-4 mr-1.5 text-gray-500"></i>
@@ -359,7 +327,7 @@
                     </div>
                 </div>
 
-                <!-- Info Box -->
+                
                 <div class="bg-purple-50 border border-purple-200 rounded-xl p-4 mb-6">
                     <div class="flex items-start">
                         <i data-feather="info" class="w-5 h-5 text-purple-600 mr-2 mt-0.5 flex-shrink-0"></i>
@@ -375,7 +343,7 @@
                     </div>
                 </div>
 
-                <!-- Modal Footer -->
+                
                 <div class="flex gap-3">
                     <button type="button" onclick="closePasswordModal()"
                         class="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-all duration-300">
@@ -394,176 +362,9 @@
 @endsection
 
 @push('script')
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    
 
-    <script>
-        function toggleEdit(formType) {
-            const form = document.getElementById(`${formType}Form`);
-            const buttons = document.getElementById(`${formType}Buttons`);
-            const inputs = form.querySelectorAll('input, select, textarea');
-            const editText = document.getElementById(`${formType}EditText`);
-
-            const isDisabled = inputs[0].disabled;
-
-            // Toggle input states
-            inputs.forEach(input => {
-                input.disabled = !isDisabled;
-            });
-
-            // Toggle button visibility
-            if (buttons) {
-                if (isDisabled) {
-                    buttons.classList.remove('hidden');
-                } else {
-                    buttons.classList.add('hidden');
-                }
-            }
-
-            // Update text button
-            if (editText) {
-                editText.textContent = isDisabled ? 'Batal' : 'Edit';
-            }
-
-            // Refresh feather icons
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-        }
-
-        // Fungsi untuk membuka modal password
-        function openPasswordModal() {
-            const modal = document.getElementById('changePasswordModal');
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
-
-            // Refresh feather icons
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-        }
-
-        // Fungsi untuk menutup modal password
-        function closePasswordModal() {
-            const modal = document.getElementById('changePasswordModal');
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto'; // Enable scrolling
-
-            // Reset form
-            document.getElementById('changePasswordForm').reset();
-        }
-
-        // Fungsi untuk toggle show/hide password
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const button = input.nextElementSibling;
-            const icon = button.querySelector('i');
-
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.setAttribute('data-feather', 'eye-off');
-            } else {
-                input.type = 'password';
-                icon.setAttribute('data-feather', 'eye');
-            }
-
-            // Refresh feather icons
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-        }
-
-        // Handle form submission untuk profile
-        document.getElementById('personalForm')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            Swal.fire({
-                title: 'Memproses...',
-                html: 'Sedang menyimpan perubahan',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            // Submit form
-            this.submit();
-        });
-
-        // Handle form submission untuk change password
-        document.getElementById('changePasswordForm')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Get values
-            const oldPassword = document.getElementById('oldPassword').value;
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-
-            // Simple validation
-            if (!oldPassword || !newPassword || !confirmPassword) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Semua field harus diisi!',
-                    customClass: {
-                        popup: 'rounded-2xl'
-                    }
-                });
-                return;
-            }
-
-            if (newPassword !== confirmPassword) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Password Tidak Cocok',
-                    text: 'Password baru dan konfirmasi password tidak sama!',
-                    customClass: {
-                        popup: 'rounded-2xl'
-                    }
-                });
-                return;
-            }
-
-            if (newPassword.length < 8) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Password Terlalu Pendek',
-                    text: 'Password minimal harus 8 karakter!',
-                    customClass: {
-                        popup: 'rounded-2xl'
-                    }
-                });
-                return;
-            }
-
-            // Show loading
-            Swal.fire({
-                title: 'Memproses...',
-                html: 'Sedang mengubah password',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            // Submit form
-            this.submit();
-        });
-
-        // Close modal when clicking outside
-        document.getElementById('changePasswordModal')?.addEventListener('click', function(e) {
-            if (e.target === this) {
-                closePasswordModal();
-            }
-        });
-
-        // Initialize Feather Icons
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-        });
-    </script>
+    <script src="{{ asset('js/User/profile.js') }}"></script>
 @endpush
+

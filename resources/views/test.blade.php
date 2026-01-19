@@ -11,9 +11,9 @@
     <h2 class="text-2xl font-bold text-center mb-6">Tambah Teknisi Baru</h2>
 
     <form action="{{(route('storeTechnician'))}}" method="POST">
-      <!-- Ganti URL di atas sesuai route store kamu -->
+      
 
-      <!-- Token CSRF -->
+      
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
       <div class="mb-4">
@@ -66,3 +66,4 @@
   </div>
 </body>
 </html>
+

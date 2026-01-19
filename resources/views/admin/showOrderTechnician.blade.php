@@ -3,7 +3,7 @@
 
     <div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8 pt-28 md:pt-32">
         <div class="max-w-7xl mx-auto">
-            <!-- Header Section -->
+            
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                 <div>
                     <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
@@ -18,7 +18,7 @@
                 </a>
             </div>
 
-            <!-- Technician Info Card -->
+            
             <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl shadow-xl p-6 mb-8 text-white">
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
                     <div class="flex items-center mb-4 md:mb-0">
@@ -41,21 +41,8 @@
                 </div>
             </div>
 
-            <!-- Summary Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div
-                    class="bg-gradient-to-br from-amber-500 to-amber-600 text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm opacity-90 mb-1">Menunggu</p>
-                            <h3 class="text-3xl font-bold">{{ $orders->where('status', 'pending')->count() }}</h3>
-                        </div>
-                        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
-                            <i data-feather="clock" class="w-6 h-6"></i>
-                        </div>
-                    </div>
-                </div>
-
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div
                     class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
                     <div class="flex justify-between items-start">
@@ -81,22 +68,9 @@
                         </div>
                     </div>
                 </div>
-
-                <div
-                    class="bg-gradient-to-br from-red-500 to-red-600 text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm opacity-90 mb-1">Dibatalkan</p>
-                            <h3 class="text-3xl font-bold">{{ $orders->where('status', 'cancelled')->count() }}</h3>
-                        </div>
-                        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
-                            <i data-feather="x-circle" class="w-6 h-6"></i>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <!-- Filter Section -->
+            
             <div class="bg-white rounded-2xl shadow-lg p-4 mb-6 border border-gray-100">
                 <div class="flex flex-wrap items-center gap-3">
                     <div class="flex items-center text-gray-700 font-semibold">
@@ -130,9 +104,9 @@
                 </div>
             </div>
 
-            <!-- Orders List -->
+            
             @if ($orders->count() > 0)
-                <!-- Desktop Table View -->
+                
                 <div class="hidden md:block bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -271,19 +245,19 @@
                         </table>
                     </div>
 
-                    <!-- Pagination -->
+                    
                     <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
                         {{ $orders->links() }}
                     </div>
                 </div>
 
-                <!-- Mobile Card View -->
+                
                 <div class="md:hidden space-y-4">
                     @foreach ($orders as $order)
                         <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden order-card"
                             data-status="{{ $order->status }}">
                             <div class="p-6">
-                                <!-- Header -->
+                                
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="flex items-center">
                                         <div
@@ -319,7 +293,7 @@
                                     @endif
                                 </div>
 
-                                <!-- Device Info -->
+                                
                                 <div class="bg-blue-50 rounded-lg p-3 mb-4">
                                     <div class="flex items-center">
                                         @if ($order->device_type === 'hp')
@@ -336,16 +310,16 @@
                                     </div>
                                 </div>
 
-                                <!-- Issue Description -->
+                                
                                 <p class="text-sm text-gray-600 mb-4">{{ Str::limit($order->issue_description, 80) }}</p>
 
-                                <!-- Schedule -->
+                                
                                 <div class="flex items-center text-sm text-gray-600 mb-4">
                                     <i data-feather="calendar" class="w-4 h-4 mr-2"></i>
                                     {{ date('d M Y', strtotime($order->schedule_date)) }}
                                 </div>
 
-                                <!-- Action -->
+                                
                                 <button
                                     onclick="openDetailModal({{ json_encode([
                                         'customer_name' => $order->user->name,
@@ -372,13 +346,13 @@
                         </div>
                     @endforeach
 
-                    <!-- Mobile Pagination -->
+                    
                     <div class="mt-6">
                         {{ $orders->links() }}
                     </div>
                 </div>
             @else
-                <!-- Empty State -->
+                
                 <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
                     <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                         <i data-feather="package" class="text-gray-400 w-12 h-12"></i>
@@ -392,11 +366,11 @@
         </div>
     </div>
 
-    <!-- Modal Detail Pesanan -->
+    
     <div id="detailModal"
         class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl transform transition-all animate-scale-in my-8">
-            <!-- Modal Header -->
+            
             <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-5 rounded-t-2xl relative sticky top-0 z-10">
                 <button onclick="closeDetailModal()"
                     class="absolute top-4 right-4 text-white/80 hover:text-white hover:bg-white/20 rounded-lg p-2 transition-all">
@@ -414,9 +388,9 @@
                 </div>
             </div>
 
-            <!-- Modal Body -->
+            
             <div class="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
-                <!-- Customer Info -->
+                
                 <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-5 border-2 border-purple-200">
                     <label class="flex items-center text-sm font-bold text-gray-800 mb-3">
                         <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center mr-2">
@@ -440,7 +414,7 @@
                     </div>
                 </div>
 
-                <!-- Device & Brand Section -->
+                
                 <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-5 border-2 border-blue-200">
                     <div class="flex items-start justify-between">
                         <div class="flex items-start">
@@ -462,7 +436,7 @@
                     </div>
                 </div>
 
-                <!-- Issue Description -->
+                
                 <div class="bg-gradient-to-br from-red-50 to-orange-50 p-5 rounded-xl border-l-4 border-red-400">
                     <label class="flex items-center text-sm font-bold text-gray-800 mb-3">
                         <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center mr-2">
@@ -473,7 +447,7 @@
                     <div id="detailIssue" class="text-sm text-gray-700 leading-relaxed">-</div>
                 </div>
 
-                <!-- Schedule & Timeline -->
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
                         <label class="flex items-center text-xs font-bold text-green-700 mb-3">
@@ -502,7 +476,7 @@
                     </div>
                 </div>
 
-                <!-- Address Section -->
+                
                 <div class="bg-gradient-to-br from-cyan-50 to-blue-50 p-5 rounded-xl border-2 border-cyan-200">
                     <label class="flex items-center text-sm font-bold text-gray-800 mb-3">
                         <div class="w-8 h-8 bg-cyan-600 rounded-lg flex items-center justify-center mr-2">
@@ -513,7 +487,7 @@
                     <p id="detailAddress" class="text-sm text-gray-700 leading-relaxed">-</p>
                 </div>
 
-                <!-- Cost Section -->
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-xl border-2 border-amber-200">
                         <label class="flex items-center text-xs font-bold text-amber-700 mb-3">
@@ -542,7 +516,7 @@
                     </div>
                 </div>
 
-                <!-- Notes Section -->
+                
                 <div id="notesSection"
                     class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border-l-4 border-blue-400">
                     <label class="flex items-center text-sm font-bold text-gray-800 mb-3">
@@ -554,7 +528,7 @@
                     <p id="detailNotes" class="text-sm text-gray-700 leading-relaxed">-</p>
                 </div>
 
-                <!-- Photo Section -->
+                
                 <div id="photoSection"
                     class="hidden bg-gradient-to-br from-gray-50 to-slate-50 p-5 rounded-xl border-2 border-gray-200">
                     <label class="flex items-center text-sm font-bold text-gray-800 mb-3">
@@ -564,11 +538,11 @@
                         FOTO KERUSAKAN
                     </label>
                     <div id="detailPhotoContainer" class="relative group cursor-pointer overflow-hidden rounded-xl">
-                        <!-- Photo will be inserted here -->
+                        
                     </div>
                 </div>
 
-                <!-- Completion Date (if completed) -->
+                
                 <div id="completedSection"
                     class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
                     <label class="flex items-center text-sm font-bold text-gray-800 mb-3">
@@ -581,7 +555,7 @@
                 </div>
             </div>
 
-            <!-- Modal Footer -->
+            
             <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 sticky bottom-0">
                 <button type="button" onclick="closeDetailModal()"
                     class="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
@@ -592,179 +566,7 @@
         </div>
     </div>
 
-    <script>
-        // Filter Orders Function
-        function filterOrders(status) {
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const orderRows = document.querySelectorAll('.order-row');
-            const orderCards = document.querySelectorAll('.order-card');
-
-            filterButtons.forEach(btn => {
-                if (btn.getAttribute('data-filter') === status) {
-                    btn.classList.remove('bg-gray-100', 'text-gray-700');
-                    btn.classList.add('bg-blue-600', 'text-white', 'shadow-md', 'active');
-                } else {
-                    btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md', 'active');
-                    btn.classList.add('bg-gray-100', 'text-gray-700');
-                }
-            });
-
-            orderRows.forEach(row => {
-                const rowStatus = row.getAttribute('data-status');
-                if (status === 'all' || rowStatus === status) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            orderCards.forEach(card => {
-                const cardStatus = card.getAttribute('data-status');
-                if (status === 'all' || cardStatus === status) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-        }
-
-        // Format Rupiah
-        function formatRupiah(value) {
-            if (!value || value === null || value === '' || value == 0) return 'Belum ditentukan';
-            return new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }).format(value);
-        }
-
-        // Get Device Icon
-        function getDeviceIcon(deviceType) {
-            const icons = {
-                'hp': 'smartphone',
-                'laptop': 'monitor',
-                'tablet': 'tablet'
-            };
-            return icons[deviceType] || 'smartphone';
-        }
-
-        // Open Detail Modal
-        function openDetailModal(orderData) {
-            // Customer Info
-            document.getElementById('detailCustomerName').textContent = orderData.customer_name;
-            document.getElementById('detailCustomerPhone').textContent = orderData.customer_phone;
-            document.getElementById('detailCustomerEmail').textContent = orderData.customer_email;
-
-            // Device & Brand
-            document.getElementById('detailDevice').textContent = orderData.device_type.toUpperCase();
-            document.getElementById('detailBrand').textContent = `Merek: ${orderData.brand}`;
-            document.getElementById('detailDeviceIcon').setAttribute('data-feather', getDeviceIcon(orderData.device_type));
-
-            // Issue Description
-            document.getElementById('detailIssue').textContent = orderData.issue_description;
-
-            // Address
-            document.getElementById('detailAddress').textContent = orderData.address;
-
-            // Schedule
-            document.getElementById('detailSchedule').textContent = orderData.schedule_date_formatted;
-
-            // Created At
-            document.getElementById('detailCreatedAt').textContent = orderData.created_at;
-
-            // Cost
-            document.getElementById('detailEstimatedCost').textContent = formatRupiah(orderData.estimated_cost);
-            document.getElementById('detailFinalCost').textContent = formatRupiah(orderData.final_cost);
-
-            // Status
-            const statusMap = {
-                'pending': {
-                    text: 'Menunggu',
-                    class: 'bg-yellow-100 text-yellow-800'
-                },
-                'on_process': {
-                    text: 'Dikerjakan',
-                    class: 'bg-blue-100 text-blue-800'
-                },
-                'completed': {
-                    text: 'Selesai',
-                    class: 'bg-green-100 text-green-800'
-                },
-                'cancelled': {
-                    text: 'Dibatalkan',
-                    class: 'bg-red-100 text-red-800'
-                }
-            };
-            const status = statusMap[orderData.status] || {
-                text: orderData.status,
-                class: 'bg-gray-100 text-gray-800'
-            };
-            const statusEl = document.getElementById('detailStatus');
-            statusEl.textContent = status.text;
-            statusEl.className = `px-4 py-2 text-xs font-bold rounded-full ${status.class} shadow-sm`;
-
-            // Notes
-            if (orderData.notes) {
-                document.getElementById('notesSection').classList.remove('hidden');
-                document.getElementById('detailNotes').textContent = orderData.notes;
-            } else {
-                document.getElementById('notesSection').classList.add('hidden');
-            }
-
-            // Photos
-            if (orderData.photo) {
-                document.getElementById('photoSection').classList.remove('hidden');
-                const photoContainer = document.getElementById('detailPhotoContainer');
-                photoContainer.innerHTML = '';
-                const img = document.createElement('img');
-                img.src = orderData.photo;
-                img.className =
-                    'rounded-lg border border-gray-200 hover:shadow-lg cursor-pointer transition-all object-cover h-40 w-full';
-                img.onclick = () => window.open(img.src, '_blank');
-                photoContainer.appendChild(img);
-            } else {
-                document.getElementById('photoSection').classList.add('hidden');
-            }
-
-            // Completed At
-            if (orderData.completed_at) {
-                document.getElementById('completedSection').classList.remove('hidden');
-                document.getElementById('detailCompletedAt').textContent = orderData.completed_at;
-            } else {
-                document.getElementById('completedSection').classList.add('hidden');
-            }
-
-            // Show Modal
-            document.getElementById('detailModal').classList.remove('hidden');
-            feather.replace();
-        }
-
-        // Close Detail Modal
-        function closeDetailModal() {
-            document.getElementById('detailModal').classList.add('hidden');
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('detailModal')?.addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeDetailModal();
-            }
-        });
-
-        // Close modal with ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                const modal = document.getElementById('detailModal');
-                if (modal && !modal.classList.contains('hidden')) {
-                    closeDetailModal();
-                }
-            }
-        });
-    </script>
+    <script src="{{ asset('js/admin/showOrderTechnician.js') }}" defer></script>
 
 @endsection
+

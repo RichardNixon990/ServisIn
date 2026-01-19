@@ -1,53 +1,10 @@
 @extends('layout.main')
 
 @section('content')
-    <style>
-        .tab-btn.active {
-            color: #3b82f6;
-            border-bottom-color: #3b82f6;
-        }
-
-        .tab-btn:not(.active) {
-            color: #6b7280;
-            border-bottom-color: transparent;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* ===== ANIMATION UTILITIES ===== */
-        .animate-fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .animate-scale-in {
-            animation: scaleIn 0.5s ease-out;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin/dashboardAdmin.css') }}">
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-8 px-4 sm:px-6 lg:px-8 pt-28 md:pt-32">
         <div class="max-w-7xl mx-auto">
-            <!-- Header Section -->
+            
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                 <div>
                     <h1 class="text-3xl md:text-4xl font-bold mb-2">
@@ -66,9 +23,9 @@
                 </div>
             </div>
 
-            <!-- Stats Cards -->
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <!-- Total Orders -->
+                
                 <div
                     class="group bg-gradient-to-br from-blue-500 to-blue-700 text-white p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                     <div class="flex justify-between items-start mb-4">
@@ -84,7 +41,7 @@
                     </div>
                 </div>
 
-                <!-- Active Technicians -->
+                
                 <div
                     class="group bg-gradient-to-br from-amber-500 to-orange-600 text-white p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                     <div class="flex justify-between items-start mb-4">
@@ -101,7 +58,7 @@
                     </div>
                 </div>
 
-                <!-- Total Customers -->
+                
                 <div
                     class="group bg-gradient-to-br from-green-500 to-emerald-600 text-white p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                     <div class="flex justify-between items-start mb-4">
@@ -117,7 +74,7 @@
                     </div>
                 </div>
 
-                <!-- Completed Today -->
+                
                 <div
                     class="group bg-gradient-to-br from-purple-500 to-purple-700 text-white p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                     <div class="flex justify-between items-start mb-4">
@@ -134,23 +91,23 @@
                 </div>
             </div>
 
-            <!-- Quick Actions -->
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                <!-- Tambah Teknisi -->
+                
                 <button onclick="showAddTechModal()"
                     class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <i data-feather="user-plus" class="w-5 h-5 mr-2"></i>
                     <span>Tambah Teknisi</span>
                 </button>
 
-                <!-- Export PDF / Laporan -->
+                
                 <a href="{{ route('adminexportPdf') }}" target="_blank"
                     class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-amber-600 to-orange-700 hover:from-amber-700 hover:to-orange-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <i data-feather="download" class="w-5 h-5 mr-2"></i>
                     <span>Export Laporan Bulanan</span>
                 </a>
 
-                <!-- Refresh Data -->
+                
                 <button onclick="location.reload()"
                     class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <i data-feather="refresh-cw" class="w-5 h-5 mr-2"></i>
@@ -158,9 +115,9 @@
                 </button>
             </div>
 
-            <!-- Tabs Section -->
+            
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-                <!-- Tab Navigation -->
+                
                 <div class="border-b border-gray-200 flex overflow-x-auto bg-gray-50" id="tab-buttons">
                     <button
                         class="tab-btn active flex items-center px-6 py-4 text-sm font-bold whitespace-nowrap border-b-4 transition-all duration-300 hover:bg-white"
@@ -194,7 +151,7 @@
                     </button>
                 </div>
 
-                <!-- Tab Content: Orders -->
+                
                 <div id="orders" class="tab-content p-6">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -210,7 +167,7 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <!-- Example Data - Replace with real data loop -->
+                                
                                 @foreach ($orders as $order)
                                     <tr class="hover:bg-blue-50 transition-colors">
 
@@ -292,7 +249,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                <!-- Add empty state if no data -->
+                                
                                 @if ($orders->isEmpty())
                                     <tr id="emptyOrders">
                                         <td colspan="7" class="px-6 py-16 text-center">
@@ -306,20 +263,20 @@
                             </tbody>
                         </table>
                     </div>
-  <!-- ===== PAGINATION SECTION ===== -->
+  
     @if($orders->hasPages())
         <div class="mt-6 bg-gray-50 rounded-xl p-6 border border-gray-200">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <!-- Pagination Info -->
+                
                 <div class="text-sm text-gray-600">
                     Menampilkan <span class="font-semibold text-gray-900">{{ $orders->firstItem() ?? 0 }}</span>
                     sampai <span class="font-semibold text-gray-900">{{ $orders->lastItem() ?? 0 }}</span>
                     dari <span class="font-semibold text-gray-900">{{ $orders->total() }}</span> pesanan
                 </div>
 
-                <!-- Pagination Links -->
+                
                 <div class="flex items-center gap-2">
-                    {{-- Previous Button --}}
+                    
                     @if ($orders->onFirstPage())
                         <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed flex items-center">
                             <i data-feather="chevron-left" class="w-4 h-4 mr-1"></i>
@@ -333,7 +290,7 @@
                         </a>
                     @endif
 
-                    {{-- Page Numbers - Simple Version --}}
+                    
                     <div class="hidden sm:flex items-center gap-1">
                         @for ($page = 1; $page <= $orders->lastPage(); $page++)
                             @if ($page == $orders->currentPage())
@@ -351,7 +308,7 @@
                         @endfor
                     </div>
 
-                    {{-- Next Button --}}
+                    
                     @if ($orders->hasMorePages())
                         <a href="{{ $orders->nextPageUrl() }}"
                            class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center">
@@ -371,10 +328,10 @@
 </div>
                 </div>
 
-                <!-- Tab Content: Technicians -->
+                
                 <div id="technicians" class="tab-content hidden p-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Example Technician Card - Replace with real data -->
+                        
                         @foreach ($technicians as $technician)
                             @php
                                 $techData = [
@@ -390,9 +347,9 @@
                             <div
                                 class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all relative">
 
-                                <!-- Action Buttons di Pojok Kanan Atas -->
+                                
                                 <div class="absolute top-4 right-4 flex gap-2">
-                                    <!-- Button Detail -->
+                                    
 <button
     onclick="viewTechnicianDetail({
         id: {{ $technician->id }},
@@ -414,7 +371,7 @@
        class="w-4 h-4 text-blue-600 group-hover:text-white transition-colors"></i>
 </button>
 
-                                    <!-- Button Edit -->
+                                    
                                     <button onclick='editTechnician({{ $technician->id }}, @json($techData))'
                                         class="group w-8 h-8 bg-amber-100 hover:bg-amber-600 rounded-lg flex items-center justify-center transition-all duration-300"
                                         title="Edit Teknisi">
@@ -423,7 +380,7 @@
                                     </button>
 
 
-                                    <!-- Button Delete -->
+                                    
                                     <form action="{{ route('admindelete', $technician->id) }}" method="POST"
                                         onsubmit="return confirmDelete(event, '{{ addslashes($technician->user->name) }}')">
                                         @csrf
@@ -497,7 +454,7 @@
                     </div>
                 </div>
 
-                <!-- Tab Content: Customers -->
+                
                 <div id="customers" class="tab-content hidden p-6">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -558,10 +515,10 @@
                     </div>
                 </div>
 
-                <!-- Tab Content: Analytics -->
+                
                 <div id="analytics" class="tab-content hidden p-6">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <!-- Device Analytics -->
+                        
                         <div class="bg-gray-50 rounded-2xl p-6 border-2 border-gray-200">
                             <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center">
                                 <i data-feather="pie-chart" class="w-5 h-5 mr-2 text-blue-600"></i>
@@ -601,7 +558,7 @@
                             </div>
                         </div>
 
-                        <!-- Status Analytics -->
+                        
                         <div class="bg-gray-50 rounded-2xl p-6 border-2 border-gray-200">
                             <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center">
                                 <i data-feather="activity" class="w-5 h-5 mr-2 text-blue-600"></i>
@@ -656,7 +613,7 @@
                     </div>
                 </div>
 
-                <!-- Tab Content: Ratings -->
+                
                 <div id="ratings" class="tab-content hidden p-6">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -728,16 +685,16 @@
                     @if(isset($rating) && $rating->hasPages())
                         <div class="mt-6 bg-gray-50 rounded-xl p-6 border border-gray-200">
                             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                                <!-- Pagination Info -->
+                                
                                 <div class="text-sm text-gray-600">
                                     Menampilkan <span class="font-semibold text-gray-900">{{ $rating->firstItem() ?? 0 }}</span>
                                     sampai <span class="font-semibold text-gray-900">{{ $rating->lastItem() ?? 0 }}</span>
                                     dari <span class="font-semibold text-gray-900">{{ $rating->total() }}</span> penilaian
                                 </div>
 
-                                <!-- Pagination Links -->
+                                
                                 <div class="flex items-center gap-2">
-                                    {{-- Previous Button --}}
+                                    
                                     @if ($rating->onFirstPage())
                                         <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed flex items-center">
                                             <i data-feather="chevron-left" class="w-4 h-4 mr-1"></i>
@@ -751,7 +708,7 @@
                                         </a>
                                     @endif
 
-                                    {{-- Page Numbers - Simple Version --}}
+                                    
                                     <div class="hidden sm:flex items-center gap-1">
                                         @for ($page = 1; $page <= $rating->lastPage(); $page++)
                                             @if ($page == $rating->currentPage())
@@ -769,7 +726,7 @@
                                         @endfor
                                     </div>
 
-                                    {{-- Next Button --}}
+                                    
                                     @if ($rating->hasMorePages())
                                         <a href="{{ $rating->nextPageUrl() }}"
                                            class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center">
@@ -791,13 +748,13 @@
             </div>
         </div>
     </div>
-    {{-- MODAL --}}
+    
     <div id="addTechnicianModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeAddTechnicianModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
-                <!-- Modal Header -->
+                
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-5 rounded-t-2xl">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -817,11 +774,11 @@
                     </div>
                 </div>
 
-                <!-- Modal Body -->
+                
                 <form id="addTechnicianForm" method="POST" action={{ route('adminstoreTechnician') }}>
                     @csrf
                     <div class="p-6 space-y-6">
-                        <!-- NAME INPUT -->
+                        
                         <div>
                             <label for="techName" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                 <div class="w-6 h-6 bg-blue-100 rounded-lg flex items-center justify-center mr-2">
@@ -834,7 +791,7 @@
                                 placeholder="Masukkan nama lengkap teknisi">
                         </div>
 
-                        <!-- EMAIL INPUT -->
+                        
                         <div>
                             <label for="techEmail" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                 <div class="w-6 h-6 bg-purple-100 rounded-lg flex items-center justify-center mr-2">
@@ -950,14 +907,14 @@
         </div>
     </div>
 
-    {{-- modal edit order --}}
-    <!-- ===== EDIT ORDER MODAL ===== -->
+    
+    
     <div id="editOrderModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeEditOrderModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
-                <!-- Modal Header -->
+                
                 <div class="bg-gradient-to-r from-amber-600 to-orange-700 px-6 py-5 rounded-t-2xl">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -977,13 +934,13 @@
                     </div>
                 </div>
 
-                <!-- Modal Body -->
+                
                 <form id="editOrderForm" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="p-6 space-y-6">
-                        <!-- Order Info -->
+                        
                         <div class="bg-amber-50 p-4 rounded-xl border-2 border-amber-200">
                             <div class="flex items-center">
                                 <div class="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center mr-3">
@@ -997,7 +954,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Technician Select -->
+                            
                             <div class="md:col-span-2">
                                 <label for="edit_technician_id"
                                     class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1020,7 +977,7 @@
                                 </p>
                             </div>
 
-                            <!-- Device Type -->
+                            
                             <div>
                                 <label for="edit_device_type"
                                     class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1038,7 +995,7 @@
                                 </select>
                             </div>
 
-                            <!-- Brand -->
+                            
                             <div>
                                 <label for="edit_brand" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                     <div class="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mr-2">
@@ -1051,7 +1008,7 @@
                                     placeholder="Contoh: Samsung, Apple, Asus">
                             </div>
 
-                            <!-- Schedule Date -->
+                            
                             <div>
                                 <label for="edit_schedule_date"
                                     class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1068,7 +1025,7 @@
                                 </p>
                             </div>
 
-                            <!-- Estimated Cost -->
+                            
                             <div>
                                 <label for="edit_estimated_cost"
                                     class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1087,7 +1044,7 @@
                                 </div>
                             </div>
 
-                            <!-- Status -->
+                            
                             <div class="md:col-span-2">
                                 <label for="edit_status" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                     <div class="w-6 h-6 bg-indigo-100 rounded-lg flex items-center justify-center mr-2">
@@ -1105,7 +1062,7 @@
                                 </select>
                             </div>
 
-                            <!-- Address -->
+                            
                             <div class="md:col-span-2">
                                 <label for="edit_address" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                     <div class="w-6 h-6 bg-red-100 rounded-lg flex items-center justify-center mr-2">
@@ -1123,7 +1080,7 @@
                             </div>
                         </div>
 
-                        <!-- Warning Box -->
+                        
                         <div class="bg-amber-50 p-4 rounded-xl border-2 border-amber-200">
                             <div class="flex items-start">
                                 <div
@@ -1142,7 +1099,7 @@
                         </div>
                     </div>
 
-                    <!-- Modal Footer -->
+                    
                     <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 flex gap-3">
                         <button type="button" onclick="closeEditOrderModal()"
                             class="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all">
@@ -1158,13 +1115,13 @@
         </div>
     </div>
 
-    {{-- modal detail order --}}
+    
     <div id="viewOrderModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeViewOrderModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
-                <!-- Modal Header -->
+                
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-5 rounded-t-2xl sticky top-0 z-10">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -1177,15 +1134,13 @@
                                 <p class="text-blue-100 text-sm">Informasi lengkap pesanan</p>
                             </div>
                         </div>
-                        {{-- <button onclick="closeViewOrderModal()" class="text-white hover:text-blue-100 transition-colors">
-                            <i data-feather="x" class="w-6 h-6"></i>
-                        </button> --}}
+                        
                     </div>
                 </div>
 
-                <!-- Modal Body -->
+                
                 <div class="p-6 space-y-6">
-                    <!-- Order ID & Status -->
+                    
                     <div class="flex flex-wrap gap-4">
                         <div class="flex-1 min-w-[200px] bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
                             <div class="flex items-center">
@@ -1213,7 +1168,7 @@
                         </div>
                     </div>
 
-                    <!-- Customer Info -->
+                    
                     <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center mr-2">
@@ -1237,7 +1192,7 @@
                         </div>
                     </div>
 
-                    <!-- Technician Info -->
+                    
                     <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border-2 border-blue-200"
                         id="technicianSection">
                         <div class="flex items-center mb-4">
@@ -1266,7 +1221,7 @@
                         </div>
                     </div>
 
-                    <!-- Device Info -->
+                    
                     <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-xl border-2 border-purple-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center mr-2">
@@ -1286,7 +1241,7 @@
                         </div>
                     </div>
 
-                    <!-- Issue Description -->
+                    
                     <div class="bg-gradient-to-br from-red-50 to-orange-50 p-5 rounded-xl border-l-4 border-red-400">
                         <div class="flex items-center mb-3">
                             <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center mr-2">
@@ -1297,9 +1252,9 @@
                         <p class="text-sm text-gray-700 leading-relaxed" id="viewIssueDesc">-</p>
                     </div>
 
-                    <!-- Schedule & Address -->
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Schedule Date -->
+                        
                         <div class="bg-gradient-to-br from-amber-50 to-yellow-50 p-5 rounded-xl border-2 border-amber-200">
                             <div class="flex items-center mb-3">
                                 <div class="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center mr-2">
@@ -1310,7 +1265,7 @@
                             <p class="text-sm text-gray-800 font-medium" id="viewScheduleDate">-</p>
                         </div>
 
-                        <!-- Estimated Cost -->
+                        
                         <div
                             class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
                             <div class="flex items-center mb-3">
@@ -1323,7 +1278,7 @@
                         </div>
                     </div>
 
-                    <!-- Address -->
+                    
                     <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-5 rounded-xl border-2 border-indigo-200">
                         <div class="flex items-center mb-3">
                             <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center mr-2">
@@ -1340,7 +1295,7 @@
                         </a>
                     </div>
 
-                    <!-- Photo (if exists) -->
+                    
                     <div id="photoSection" class="hidden">
                         <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-5 rounded-xl border-2 border-gray-200">
                             <div class="flex items-center mb-3">
@@ -1365,9 +1320,9 @@
                         </div>
                     </div>
 
-                    <!-- Completion Info (if completed) -->
+                    
                     <div id="completionSection" class="hidden space-y-4">
-                        <!-- Final Cost -->
+                        
                         <div
                             class="bg-gradient-to-br from-yellow-50 to-orange-50 p-5 rounded-xl border-2 border-yellow-200">
                             <div class="flex items-center mb-3">
@@ -1379,7 +1334,7 @@
                             <p class="text-2xl text-gray-800 font-black" id="viewFinalCost">-</p>
                         </div>
 
-                        <!-- Completed Date -->
+                        
                         <div
                             class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
                             <div class="flex items-center mb-3">
@@ -1391,7 +1346,7 @@
                             <p class="text-sm text-gray-800 font-medium" id="viewCompletedDate">-</p>
                         </div>
 
-                        <!-- Notes -->
+                        
                         <div id="notesSection"
                             class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border-l-4 border-blue-400">
                             <div class="flex items-center mb-3">
@@ -1404,7 +1359,7 @@
                         </div>
                     </div>
 
-                    <!-- Cancelled Info (if cancelled) -->
+                    
                     <div id="cancelledSection"
                         class="hidden bg-gradient-to-br from-red-50 to-pink-50 p-5 rounded-xl border-2 border-red-200">
                         <div class="flex items-center mb-3">
@@ -1417,7 +1372,7 @@
                     </div>
                 </div>
 
-                <!-- Modal Footer -->
+                
                 <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 sticky bottom-0">
                     <button onclick="closeViewOrderModal()"
                         class="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
@@ -1428,7 +1383,7 @@
         </div>
     </div>
 
-    <!-- Image Fullscreen Modal -->
+    
     <div id="imageFullscreenModal" class="hidden fixed inset-0 z-[10000] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeImageFullscreen()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
@@ -1443,14 +1398,14 @@
         </div>
     </div>
 
-    {{-- modal user --}}
+    
     <div id="viewCustomerModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeViewCustomerModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
 
-                <!-- Modal Header -->
+                
                 <div class="bg-gradient-to-r from-green-600 to-emerald-800 px-6 py-5 rounded-t-2xl sticky top-0 z-10">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -1470,10 +1425,10 @@
                     </div>
                 </div>
 
-                <!-- Modal Body -->
+                
                 <div class="p-6 space-y-6">
 
-                    <!-- Customer ID & Avatar -->
+                    
                     <div
                         class="flex items-center gap-6 bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200">
                         <div
@@ -1487,7 +1442,7 @@
                         </div>
                     </div>
 
-                    <!-- INFORMASI PRIBADI -->
+                    
                     <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border-2 border-blue-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-2">
@@ -1503,7 +1458,7 @@
                         </div>
                     </div>
 
-                    <!-- INFORMASI KONTAK -->
+                    
                     <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-xl border-2 border-purple-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center mr-2">
@@ -1512,7 +1467,7 @@
                             <h4 class="text-sm font-bold text-gray-800">INFORMASI KONTAK</h4>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <!-- Email -->
+                            
                             <div class="md:col-span-2">
                                 <p class="text-xs font-semibold text-purple-700 mb-2">Email</p>
                                 <div
@@ -1525,7 +1480,7 @@
                                 </div>
                             </div>
 
-                            <!-- Phone -->
+                            
                             <div class="md:col-span-2">
                                 <p class="text-xs font-semibold text-purple-700 mb-2">No. Telepon</p>
                                 <div
@@ -1539,7 +1494,7 @@
                         </div>
                     </div>
 
-                    <!-- Address -->
+                    
                     <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-5 rounded-xl border-2 border-orange-200">
                         <div class="flex items-center mb-3">
                             <div class="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center mr-2">
@@ -1556,7 +1511,7 @@
                         </a>
                     </div>
 
-                    <!-- Statistics -->
+                    
                     <div class="bg-gradient-to-br from-indigo-50 to-blue-50 p-5 rounded-xl border-2 border-indigo-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center mr-2">
@@ -1584,7 +1539,7 @@
                         </div>
                     </div>
 
-                    <!-- Join Date -->
+                    
                     <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-5 rounded-xl border-2 border-gray-200">
                         <div class="flex items-center">
                             <div class="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center mr-3">
@@ -1598,7 +1553,7 @@
                     </div>
                 </div>
 
-                <!-- Modal Footer -->
+                
                 <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 sticky bottom-0">
                     <button onclick="closeViewCustomerModal()"
                         class="w-full px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all">
@@ -1609,14 +1564,14 @@
         </div>
     </div>
 
-    <!-- ===== MODAL DETAIL TEKNISI ===== -->
+    
     <div id="viewTechnicianModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeViewTechnicianModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
 
-                <!-- Modal Header -->
+                
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-5 rounded-t-2xl sticky top-0 z-10">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -1636,10 +1591,10 @@
                     </div>
                 </div>
 
-                <!-- Modal Body -->
+                
                 <div class="p-6 space-y-6">
 
-                    <!-- Tech ID & Avatar -->
+                    
                     <div
                         class="flex items-center gap-6 bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl border-2 border-blue-200">
                         <div
@@ -1653,7 +1608,7 @@
                         </div>
                     </div>
 
-                    <!-- Status & Availability -->
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div
                             class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
@@ -1680,7 +1635,7 @@
                         </div>
                     </div>
 
-                    <!-- Informasi Kontak -->
+                    
                     <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-xl border-2 border-amber-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center mr-2">
@@ -1704,7 +1659,7 @@
                         </div>
                     </div>
 
-                    <!-- Keahlian & Pengalaman -->
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="bg-gradient-to-br from-indigo-50 to-blue-50 p-5 rounded-xl border-2 border-indigo-200">
                             <div class="flex items-center mb-3">
@@ -1727,7 +1682,7 @@
                         </div>
                     </div>
 
-                    <!-- Statistik Pesanan -->
+                    
                     <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-5 rounded-xl border-2 border-gray-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center mr-2">
@@ -1753,7 +1708,7 @@
 
                 </div>
 
-                <!-- Modal Footer -->
+                
                 <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 sticky bottom-0 flex gap-3">
                     <button onclick="closeViewTechnicianModal()"
                         class="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all">
@@ -1768,14 +1723,14 @@
         </div>
     </div>
 
-    <!-- ===== MODAL EDIT TEKNISI ===== -->
+    
     <div id="editTechnicianModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeEditTechnicianModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
 
-                <!-- Modal Header -->
+                
                 <div class="bg-gradient-to-r from-amber-600 to-orange-700 px-6 py-5 rounded-t-2xl">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -1795,13 +1750,13 @@
                     </div>
                 </div>
 
-                <!-- Modal Body -->
+                
                 <form id="editTechnicianForm" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="p-6 space-y-6">
-                        <!-- Technician Info -->
+                        
                         <div class="bg-amber-50 p-4 rounded-xl border-2 border-amber-200">
                             <div class="flex items-center">
                                 <div class="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center mr-3">
@@ -1814,7 +1769,7 @@
                             </div>
                         </div>
 
-                        <!-- Name -->
+                        
                         <div>
                             <label for="edit_tech_name" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                 <div class="w-6 h-6 bg-blue-100 rounded-lg flex items-center justify-center mr-2">
@@ -1827,7 +1782,7 @@
                                 placeholder="Masukkan nama lengkap">
                         </div>
 
-                        <!-- Email -->
+                        
                         <div>
                             <label for="edit_tech_email" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                 <div class="w-6 h-6 bg-purple-100 rounded-lg flex items-center justify-center mr-2">
@@ -1840,7 +1795,7 @@
                                 placeholder="contoh@email.com">
                         </div>
 
-                        <!-- Phone -->
+                        
                         <div>
                             <label for="edit_tech_phone" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                 <div class="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mr-2">
@@ -1853,7 +1808,7 @@
                                 placeholder="08xx xxxx xxxx">
                         </div>
 
-                        <!-- Address -->
+                        
                         <div>
                             <label for="edit_tech_address"
                                 class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1867,7 +1822,7 @@
                                 placeholder="Masukkan alamat lengkap"></textarea>
                         </div>
 
-                        <!-- Specialization -->
+                        
                         <div>
                             <label for="edit_tech_specialization"
                                 class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1881,7 +1836,7 @@
                                 placeholder="Contoh: HP, Laptop, Tablet">
                         </div>
 
-                        <!-- Experience Years -->
+                        
                         <div>
                             <label for="edit_tech_experience"
                                 class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1896,7 +1851,7 @@
                                 placeholder="Masukkan pengalaman dalam tahun">
                         </div>
 
-                        <!-- Status -->
+                        
                         <div>
                             <label for="edit_tech_status"
                                 class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1912,7 +1867,7 @@
                             </select>
                         </div>
 
-                        <!-- Warning Box -->
+                        
                         <div class="bg-amber-50 p-4 rounded-xl border-2 border-amber-200">
                             <div class="flex items-start">
                                 <div
@@ -1930,7 +1885,7 @@
                         </div>
                     </div>
 
-                    <!-- Modal Footer -->
+                    
                     <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 flex gap-3">
                         <button type="button" onclick="closeEditTechnicianModal()"
                             class="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all">
@@ -1946,14 +1901,14 @@
         </div>
     </div>
 
-    <!-- ===== MODAL DETAIL RATING ===== -->
+    
     <div id="viewRatingDetailModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeViewRatingDetailModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
 
-                <!-- Modal Header -->
+                
                 <div class="bg-gradient-to-r from-yellow-600 to-amber-700 px-6 py-5 rounded-t-2xl sticky top-0 z-10">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -1973,10 +1928,10 @@
                     </div>
                 </div>
 
-                <!-- Modal Body -->
+                
                 <div class="p-6 space-y-6">
 
-                    <!-- Rating ID & Order ID -->
+                    
                     <div class="flex flex-wrap gap-4">
                         <div class="flex-1 min-w-[200px] bg-yellow-50 p-4 rounded-xl border-2 border-yellow-200">
                             <div class="flex items-center">
@@ -2004,7 +1959,7 @@
                         </div>
                     </div>
 
-                    <!-- Customer Info -->
+                    
                     <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center mr-2">
@@ -2015,7 +1970,7 @@
                         <p class="text-sm text-gray-800 font-medium" id="viewRatingCustomerName">-</p>
                     </div>
 
-                    <!-- Technician Info -->
+                    
                     <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border-2 border-blue-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-2">
@@ -2026,7 +1981,7 @@
                         <p class="text-sm text-gray-800 font-medium" id="viewRatingTechnicianName">-</p>
                     </div>
 
-                    <!-- Rating Value -->
+                    
                     <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-xl border-2 border-purple-200">
                         <div class="flex items-center mb-3">
                             <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center mr-2">
@@ -2040,7 +1995,7 @@
                         </div>
                     </div>
 
-                    <!-- Comment -->
+                    
                     <div class="bg-gradient-to-br from-red-50 to-orange-50 p-5 rounded-xl border-l-4 border-red-400">
                         <div class="flex items-center mb-3">
                             <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center mr-2">
@@ -2051,7 +2006,7 @@
                         <p class="text-sm text-gray-700 leading-relaxed" id="viewRatingComment">-</p>
                     </div>
 
-                    <!-- Created At -->
+                    
                     <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-5 rounded-xl border-2 border-gray-200">
                         <div class="flex items-center">
                             <div class="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center mr-3">
@@ -2066,7 +2021,7 @@
 
                 </div>
 
-                <!-- Modal Footer -->
+                
                 <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 sticky bottom-0">
                     <button onclick="closeViewRatingDetailModal()"
                         class="w-full px-6 py-3 bg-gradient-to-r from-yellow-600 to-amber-700 hover:from-yellow-700 hover:to-amber-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
@@ -2080,51 +2035,7 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <style>
-        .tab-btn.active {
-            color: #3b82f6;
-            border-bottom-color: #3b82f6;
-        }
-
-        .tab-btn:not(.active) {
-            color: #6b7280;
-            border-bottom-color: transparent;
-        }
-
-        /* ===== KEYFRAME ANIMATIONS ===== */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* ===== ANIMATION UTILITIES ===== */
-        .animate-fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .animate-scale-in {
-            animation: scaleIn 0.5s ease-out;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin/dashboardAdmin.css') }}">
 
     <script>
         // ===== SUCCESS MESSAGE =====
@@ -2805,3 +2716,4 @@
         });
     </script>
 @endpush
+
