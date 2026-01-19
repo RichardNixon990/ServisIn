@@ -25,10 +25,14 @@ use SoftDeletes;
      ;
     }
     public function payment(){
-        return $this->hasMany(Payment::class);
+        return $this->hasOne(Payment::class);
     }
 
     public function listKerusakan(){
         return $this->hasMany(ListKerusakan::class);
+    }
+
+    public function rating(){
+        return $this->hasOne(Rating::class, 'order_id');
     }
 }

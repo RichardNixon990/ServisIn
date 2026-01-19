@@ -186,6 +186,12 @@
                         <i data-feather="bar-chart-2" class="w-5 h-5 mr-2"></i>
                         Analitik
                     </button>
+                    <button
+                        class="tab-btn flex items-center px-6 py-4 text-sm font-bold whitespace-nowrap border-b-4 transition-all duration-300 hover:bg-white"
+                        data-tab="ratings">
+                        <i data-feather="star" class="w-5 h-5 mr-2"></i>
+                        Penilaian Teknisi
+                    </button>
                 </div>
 
                 <!-- Tab Content: Orders -->
@@ -300,6 +306,69 @@
                             </tbody>
                         </table>
                     </div>
+  <!-- ===== PAGINATION SECTION ===== -->
+    @if($orders->hasPages())
+        <div class="mt-6 bg-gray-50 rounded-xl p-6 border border-gray-200">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <!-- Pagination Info -->
+                <div class="text-sm text-gray-600">
+                    Menampilkan <span class="font-semibold text-gray-900">{{ $orders->firstItem() ?? 0 }}</span>
+                    sampai <span class="font-semibold text-gray-900">{{ $orders->lastItem() ?? 0 }}</span>
+                    dari <span class="font-semibold text-gray-900">{{ $orders->total() }}</span> pesanan
+                </div>
+
+                <!-- Pagination Links -->
+                <div class="flex items-center gap-2">
+                    {{-- Previous Button --}}
+                    @if ($orders->onFirstPage())
+                        <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed flex items-center">
+                            <i data-feather="chevron-left" class="w-4 h-4 mr-1"></i>
+                            Previous
+                        </span>
+                    @else
+                        <a href="{{ $orders->previousPageUrl() }}"
+                           class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center">
+                            <i data-feather="chevron-left" class="w-4 h-4 mr-1"></i>
+                            Previous
+                        </a>
+                    @endif
+
+                    {{-- Page Numbers - Simple Version --}}
+                    <div class="hidden sm:flex items-center gap-1">
+                        @for ($page = 1; $page <= $orders->lastPage(); $page++)
+                            @if ($page == $orders->currentPage())
+                                <span class="px-4 py-2 bg-blue-600 text-white rounded-lg font-bold text-sm shadow-md">
+                                    {{ $page }}
+                                </span>
+                            @elseif ($page == 1 || $page == $orders->lastPage() || abs($page - $orders->currentPage()) <= 2)
+                                <a href="{{ $orders->url($page) }}"
+                                   class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium text-sm hover:bg-blue-100 hover:text-blue-800 transition-colors">
+                                    {{ $page }}
+                                </a>
+                            @elseif (abs($page - $orders->currentPage()) == 3)
+                                <span class="px-2 text-gray-500">...</span>
+                            @endif
+                        @endfor
+                    </div>
+
+                    {{-- Next Button --}}
+                    @if ($orders->hasMorePages())
+                        <a href="{{ $orders->nextPageUrl() }}"
+                           class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center">
+                            Next
+                            <i data-feather="chevron-right" class="w-4 h-4 ml-1"></i>
+                        </a>
+                    @else
+                        <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed flex items-center">
+                            Next
+                            <i data-feather="chevron-right" class="w-4 h-4 ml-1"></i>
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+    @endif
+</div>
                 </div>
 
                 <!-- Tab Content: Technicians -->
@@ -432,7 +501,7 @@
                 <div id="customers" class="tab-content hidden p-6">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gradient-to-r from-green-600 to-green-800">
+                           <thead class="bg-gradient-to-r from-green-600 to-green-800">
                                 <tr>
                                     <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase">Nama</th>
                                     <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase">Email</th>
@@ -586,6 +655,139 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Tab Content: Ratings -->
+                <div id="ratings" class="tab-content hidden p-6">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gradient-to-r from-yellow-500 to-amber-600">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase">Order ID</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase">Customer</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase">Teknisi</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase">Rating</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase">Komentar</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase">Tanggal</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-white uppercase">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @forelse ($rating as $rate)
+                                    <tr class="hover:bg-amber-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold">#{{ $rate->order_id }}</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $rate->user->name ?? 'N/A' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $rate->technician->user->name ?? 'N/A' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    @if ($i <= $rate->rating)
+                                                        <i data-feather="star" class="w-4 h-4 text-yellow-400 fill-current"></i>
+                                                    @else
+                                                        <i data-feather="star" class="w-4 h-4 text-gray-300"></i>
+                                                    @endif
+                                                @endfor
+                                                <span class="ml-2 text-sm text-gray-600">({{ number_format($rate->rating, 1) }})</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">{{ $rate->comment ?? '-' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                            {{ \Carbon\Carbon::parse($rate->created_at)->translatedFormat('j F Y') }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                                            <button
+                                                onclick='openViewRatingDetailModal({
+                                                    id: {{ $rate->id }},
+                                                    customer_name: "{{ $rate->user->name ?? 'N/A' }}",
+                                                    technician_name: "{{ $rate->technician->user->name ?? 'N/A' }}",
+                                                    order_id: "{{ $rate->order_id }}",
+                                                    rating_value: {{ $rate->rating }},
+                                                    comment: "{{ str_replace(["\r", "\n", '"'], ['', ' ', '\"'], $rate->comment ?? '') }}",
+                                                    created_at: "{{ \Carbon\Carbon::parse($rate->created_at)->translatedFormat('l, j F Y - H:i') . ' WIB' }}"
+                                                })'
+                                                class="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+                                                title="Lihat Detail Rating">
+                                                <i data-feather="eye" class="w-4 h-4"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="px-6 py-16 text-center">
+                                            <div class="flex flex-col items-center">
+                                                <i data-feather="star" class="w-16 h-16 text-gray-400 mb-4"></i>
+                                                <p class="text-gray-600 font-medium">Belum ada penilaian yang masuk.</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    @if(isset($rating) && $rating->hasPages())
+                        <div class="mt-6 bg-gray-50 rounded-xl p-6 border border-gray-200">
+                            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <!-- Pagination Info -->
+                                <div class="text-sm text-gray-600">
+                                    Menampilkan <span class="font-semibold text-gray-900">{{ $rating->firstItem() ?? 0 }}</span>
+                                    sampai <span class="font-semibold text-gray-900">{{ $rating->lastItem() ?? 0 }}</span>
+                                    dari <span class="font-semibold text-gray-900">{{ $rating->total() }}</span> penilaian
+                                </div>
+
+                                <!-- Pagination Links -->
+                                <div class="flex items-center gap-2">
+                                    {{-- Previous Button --}}
+                                    @if ($rating->onFirstPage())
+                                        <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed flex items-center">
+                                            <i data-feather="chevron-left" class="w-4 h-4 mr-1"></i>
+                                            Previous
+                                        </span>
+                                    @else
+                                        <a href="{{ $rating->previousPageUrl() }}"
+                                           class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center">
+                                            <i data-feather="chevron-left" class="w-4 h-4 mr-1"></i>
+                                            Previous
+                                        </a>
+                                    @endif
+
+                                    {{-- Page Numbers - Simple Version --}}
+                                    <div class="hidden sm:flex items-center gap-1">
+                                        @for ($page = 1; $page <= $rating->lastPage(); $page++)
+                                            @if ($page == $rating->currentPage())
+                                                <span class="px-4 py-2 bg-blue-600 text-white rounded-lg font-bold text-sm shadow-md">
+                                                    {{ $page }}
+                                                </span>
+                                            @elseif ($page == 1 || $page == $rating->lastPage() || abs($page - $rating->currentPage()) <= 2)
+                                                <a href="{{ $rating->url($page) }}"
+                                                   class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium text-sm hover:bg-blue-100 hover:text-blue-800 transition-colors">
+                                                    {{ $page }}
+                                                </a>
+                                            @elseif (abs($page - $rating->currentPage()) == 3)
+                                                <span class="px-2 text-gray-500">...</span>
+                                            @endif
+                                        @endfor
+                                    </div>
+
+                                    {{-- Next Button --}}
+                                    @if ($rating->hasMorePages())
+                                        <a href="{{ $rating->nextPageUrl() }}"
+                                           class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center">
+                                            Next
+                                            <i data-feather="chevron-right" class="w-4 h-4 ml-1"></i>
+                                        </a>
+                                    @else
+                                        <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed flex items-center">
+                                            Next
+                                            <i data-feather="chevron-right" class="w-4 h-4 ml-1"></i>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
             </div>
         </div>
     </div>
@@ -1743,7 +1945,137 @@
             </div>
         </div>
     </div>
-@endsection
+
+    <!-- ===== MODAL DETAIL RATING ===== -->
+    <div id="viewRatingDetailModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeViewRatingDetailModal()"></div>
+        <div class="relative w-full h-full flex items-center justify-center p-4">
+            <div
+                class="relative bg-white rounded-2xl shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
+
+                <!-- Modal Header -->
+                <div class="bg-gradient-to-r from-yellow-600 to-amber-700 px-6 py-5 rounded-t-2xl sticky top-0 z-10">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div
+                                class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-3 backdrop-blur-sm">
+                                <i data-feather="star" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Detail Penilaian</h3>
+                                <p class="text-amber-100 text-sm">Informasi lengkap penilaian teknisi</p>
+                            </div>
+                        </div>
+                        <button onclick="closeViewRatingDetailModal()"
+                            class="text-white hover:text-amber-100 transition-colors">
+                            <i data-feather="x" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6 space-y-6">
+
+                    <!-- Rating ID & Order ID -->
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex-1 min-w-[200px] bg-yellow-50 p-4 rounded-xl border-2 border-yellow-200">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-yellow-600 rounded-lg flex items-center justify-center mr-3">
+                                    <i data-feather="hash" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-yellow-600 mb-1">RATING ID</p>
+                                    <p class="text-sm font-bold text-gray-800" id="viewRatingId">#0000</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex-1 min-w-[200px] bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                                    <i data-feather="package" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-blue-600 mb-1">ORDER ID</p>
+                                    <p class="text-sm font-bold text-gray-800" id="viewRatingOrderId">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Info -->
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center mr-2">
+                                <i data-feather="user" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <h4 class="text-sm font-bold text-gray-800">CUSTOMER</h4>
+                        </div>
+                        <p class="text-sm text-gray-800 font-medium" id="viewRatingCustomerName">-</p>
+                    </div>
+
+                    <!-- Technician Info -->
+                    <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border-2 border-blue-200">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-2">
+                                <i data-feather="users" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <h4 class="text-sm font-bold text-gray-800">TEKNISI</h4>
+                        </div>
+                        <p class="text-sm text-gray-800 font-medium" id="viewRatingTechnicianName">-</p>
+                    </div>
+
+                    <!-- Rating Value -->
+                    <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-xl border-2 border-purple-200">
+                        <div class="flex items-center mb-3">
+                            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center mr-2">
+                                <i data-feather="star" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <h4 class="text-sm font-bold text-gray-800">NILAI PENILAIAN</h4>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-2xl font-bold text-gray-800 mr-2" id="viewRatingValue">0.0</span>
+                            <div class="flex" id="viewRatingStars"></div>
+                        </div>
+                    </div>
+
+                    <!-- Comment -->
+                    <div class="bg-gradient-to-br from-red-50 to-orange-50 p-5 rounded-xl border-l-4 border-red-400">
+                        <div class="flex items-center mb-3">
+                            <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center mr-2">
+                                <i data-feather="message-square" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <h4 class="text-sm font-bold text-gray-800">KOMENTAR</h4>
+                        </div>
+                        <p class="text-sm text-gray-700 leading-relaxed" id="viewRatingComment">-</p>
+                    </div>
+
+                    <!-- Created At -->
+                    <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-5 rounded-xl border-2 border-gray-200">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center mr-3">
+                                <i data-feather="calendar" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-600 mb-1">TANGGAL PENILAIAN</p>
+                                <p class="text-sm text-gray-800 font-medium" id="viewRatingCreatedAt">-</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 sticky bottom-0">
+                    <button onclick="closeViewRatingDetailModal()"
+                        class="w-full px-6 py-3 bg-gradient-to-r from-yellow-600 to-amber-700 hover:from-yellow-700 hover:to-amber-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                        <i data-feather="x" class="w-4 h-4 inline-block mr-2"></i>Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @push('script')
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -2258,6 +2590,45 @@
             return false;
         };
 
+        // ===== VIEW RATING DETAIL MODAL =====
+        window.openViewRatingDetailModal = function(ratingData) {
+            const modal = document.getElementById('viewRatingDetailModal');
+            if (!modal || !ratingData) return;
+
+            document.getElementById('viewRatingId').textContent = `#${String(ratingData.id).padStart(4, '0')}`;
+            document.getElementById('viewRatingOrderId').textContent = `#${String(ratingData.order_id).padStart(4, '0')}`;
+            document.getElementById('viewRatingCustomerName').textContent = ratingData.customer_name || '-';
+            document.getElementById('viewRatingTechnicianName').textContent = ratingData.technician_name || '-';
+            
+            const ratingValue = parseFloat(ratingData.rating_value) || 0;
+            document.getElementById('viewRatingValue').textContent = ratingValue.toFixed(1);
+
+            const starsContainer = document.getElementById('viewRatingStars');
+            starsContainer.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('i');
+                star.setAttribute('data-feather', 'star');
+                star.className = i <= Math.round(ratingValue) ? 'w-4 h-4 text-yellow-400 fill-current' :
+                    'w-4 h-4 text-gray-300';
+                starsContainer.appendChild(star);
+            }
+
+            document.getElementById('viewRatingComment').textContent = ratingData.comment || '-';
+            document.getElementById('viewRatingCreatedAt').textContent = ratingData.created_at || '-';
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => feather.replace(), 100);
+        };
+
+        window.closeViewRatingDetailModal = function() {
+            const modal = document.getElementById('viewRatingDetailModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        };
+
         // ===== FORM SUBMISSIONS =====
         document.getElementById('editOrderForm')?.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -2393,7 +2764,7 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 const modals = ['editOrderModal', 'addTechnicianModal', 'viewOrderModal', 'imageFullscreenModal',
-                    'viewCustomerModal', 'viewTechnicianModal', 'editTechnicianModal'
+                    'viewCustomerModal', 'viewTechnicianModal', 'editTechnicianModal', 'viewRatingDetailModal'
                 ];
                 modals.forEach(modalId => {
                     const modal = document.getElementById(modalId);
