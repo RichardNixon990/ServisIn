@@ -11,6 +11,9 @@ use App\Models\Payment;
 use App\Models\Technician;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -71,6 +74,43 @@ class AdminController extends Controller
 
             $rating = Rating::with(['user', 'technician.user', 'order'])->latest()->paginate(10);
             return view('admin.dashboardAdmin', compact('orders', 'users', 'barDevice', 'deviceStats', 'technicians', 'barStatus', 'statusStats', 'totalStatus','totalUser','completedToday', 'totalTechnician', 'rating' ));
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Internal Server Error',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function createAdmin(Request $request){
+        try {
+            $adminRole = Role::firstOrCreate(['nama_role' => 'admin']);
+            $validate = Validator::make($request->all(), [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => ['required',
+                Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()],
+                'phone' => 'required',
+                'address' => 'required'
+            ]);
+            if ($validate->fails()) {
+                return back()->withErrors($validate)->withInput();
+            }
+
+            $admin = new User();
+            $admin->name = $request->input('name');
+            $admin->email = $request->input('email');
+            $admin->password = Hash::make($request->input('password'));
+            $admin->phone = $request->input('phone');
+            $admin->address = $request->input('address');
+            $admin->role_id = $adminRole->id;
+            $admin->save();
+
+            return redirect()->back()->with('success', 'Admin berhasil ditambahkan.');
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Internal Server Error',

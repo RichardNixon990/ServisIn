@@ -78,4 +78,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin', 'middleware' => ['auth.check
     Route::get('/report-order', [AdminController::class, 'exportPdf'])->name('exportPdf');
     Route::delete('/delete{technician}', [TechnicianController::class, 'delete'])->name('delete');
     Route::put('/comfirmPayment/{payments}', [PaymentController::class, 'adminConfirmPayment'])->name('updatePayment');
+    Route::post('/createAdmin', [AdminController::class, 'createAdmin'])->name('createAdmin');
 });

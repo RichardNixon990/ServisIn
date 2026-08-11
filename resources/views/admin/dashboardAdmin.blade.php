@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/admin/dashboardAdmin.css') }}">
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-8 px-4 sm:px-6 lg:px-8 pt-28 md:pt-32">
         <div class="max-w-7xl mx-auto">
-            
+
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                 <div>
                     <h1 class="text-3xl md:text-4xl font-bold mb-2">
@@ -23,9 +23,9 @@
                 </div>
             </div>
 
-            
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                
+
                 <div
                     class="group bg-gradient-to-br from-blue-500 to-blue-700 text-white p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                     <div class="flex justify-between items-start mb-4">
@@ -41,7 +41,7 @@
                     </div>
                 </div>
 
-                
+
                 <div
                     class="group bg-gradient-to-br from-amber-500 to-orange-600 text-white p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                     <div class="flex justify-between items-start mb-4">
@@ -58,7 +58,7 @@
                     </div>
                 </div>
 
-                
+
                 <div
                     class="group bg-gradient-to-br from-green-500 to-emerald-600 text-white p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                     <div class="flex justify-between items-start mb-4">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
 
-                
+
                 <div
                     class="group bg-gradient-to-br from-purple-500 to-purple-700 text-white p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                     <div class="flex justify-between items-start mb-4">
@@ -91,23 +91,29 @@
                 </div>
             </div>
 
-            
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                
+
                 <button onclick="showAddTechModal()"
                     class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <i data-feather="user-plus" class="w-5 h-5 mr-2"></i>
                     <span>Tambah Teknisi</span>
                 </button>
 
-                
+
+                <button onclick="showAddAdminModal()"
+                    class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <i data-feather="shield" class="w-5 h-5 mr-2"></i>
+                    <span>Tambah Admin</span>
+                </button>
+
                 <a href="{{ route('adminexportPdf') }}" target="_blank"
                     class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-amber-600 to-orange-700 hover:from-amber-700 hover:to-orange-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <i data-feather="download" class="w-5 h-5 mr-2"></i>
                     <span>Export Laporan Bulanan</span>
                 </a>
 
-                
+
                 <button onclick="location.reload()"
                     class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <i data-feather="refresh-cw" class="w-5 h-5 mr-2"></i>
@@ -115,9 +121,9 @@
                 </button>
             </div>
 
-            
+
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-                
+
                 <div class="border-b border-gray-200 flex overflow-x-auto bg-gray-50" id="tab-buttons">
                     <button
                         class="tab-btn active flex items-center px-6 py-4 text-sm font-bold whitespace-nowrap border-b-4 transition-all duration-300 hover:bg-white"
@@ -151,7 +157,7 @@
                     </button>
                 </div>
 
-                
+
                 <div id="orders" class="tab-content p-6">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -167,7 +173,7 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                
+
                                 @foreach ($orders as $order)
                                     <tr class="hover:bg-blue-50 transition-colors">
 
@@ -249,7 +255,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                
+
                                 @if ($orders->isEmpty())
                                     <tr id="emptyOrders">
                                         <td colspan="7" class="px-6 py-16 text-center">
@@ -263,20 +269,20 @@
                             </tbody>
                         </table>
                     </div>
-  
+
     @if($orders->hasPages())
         <div class="mt-6 bg-gray-50 rounded-xl p-6 border border-gray-200">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                
+
                 <div class="text-sm text-gray-600">
                     Menampilkan <span class="font-semibold text-gray-900">{{ $orders->firstItem() ?? 0 }}</span>
                     sampai <span class="font-semibold text-gray-900">{{ $orders->lastItem() ?? 0 }}</span>
                     dari <span class="font-semibold text-gray-900">{{ $orders->total() }}</span> pesanan
                 </div>
 
-                
+
                 <div class="flex items-center gap-2">
-                    
+
                     @if ($orders->onFirstPage())
                         <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed flex items-center">
                             <i data-feather="chevron-left" class="w-4 h-4 mr-1"></i>
@@ -290,7 +296,7 @@
                         </a>
                     @endif
 
-                    
+
                     <div class="hidden sm:flex items-center gap-1">
                         @for ($page = 1; $page <= $orders->lastPage(); $page++)
                             @if ($page == $orders->currentPage())
@@ -308,7 +314,7 @@
                         @endfor
                     </div>
 
-                    
+
                     @if ($orders->hasMorePages())
                         <a href="{{ $orders->nextPageUrl() }}"
                            class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center">
@@ -328,10 +334,10 @@
 </div>
                 </div>
 
-                
+
                 <div id="technicians" class="tab-content hidden p-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        
+
                         @foreach ($technicians as $technician)
                             @php
                                 $techData = [
@@ -347,9 +353,9 @@
                             <div
                                 class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all relative">
 
-                                
+
                                 <div class="absolute top-4 right-4 flex gap-2">
-                                    
+
 <button
     onclick="viewTechnicianDetail({
         id: {{ $technician->id }},
@@ -371,7 +377,7 @@
        class="w-4 h-4 text-blue-600 group-hover:text-white transition-colors"></i>
 </button>
 
-                                    
+
                                     <button onclick='editTechnician({{ $technician->id }}, @json($techData))'
                                         class="group w-8 h-8 bg-amber-100 hover:bg-amber-600 rounded-lg flex items-center justify-center transition-all duration-300"
                                         title="Edit Teknisi">
@@ -380,7 +386,7 @@
                                     </button>
 
 
-                                    
+
                                     <form action="{{ route('admindelete', $technician->id) }}" method="POST"
                                         onsubmit="return confirmDelete(event, '{{ addslashes($technician->user->name) }}')">
                                         @csrf
@@ -454,7 +460,7 @@
                     </div>
                 </div>
 
-                
+
                 <div id="customers" class="tab-content hidden p-6">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -515,10 +521,10 @@
                     </div>
                 </div>
 
-                
+
                 <div id="analytics" class="tab-content hidden p-6">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        
+
                         <div class="bg-gray-50 rounded-2xl p-6 border-2 border-gray-200">
                             <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center">
                                 <i data-feather="pie-chart" class="w-5 h-5 mr-2 text-blue-600"></i>
@@ -558,7 +564,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="bg-gray-50 rounded-2xl p-6 border-2 border-gray-200">
                             <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center">
                                 <i data-feather="activity" class="w-5 h-5 mr-2 text-blue-600"></i>
@@ -613,7 +619,7 @@
                     </div>
                 </div>
 
-                
+
                 <div id="ratings" class="tab-content hidden p-6">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -685,16 +691,16 @@
                     @if(isset($rating) && $rating->hasPages())
                         <div class="mt-6 bg-gray-50 rounded-xl p-6 border border-gray-200">
                             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                                
+
                                 <div class="text-sm text-gray-600">
                                     Menampilkan <span class="font-semibold text-gray-900">{{ $rating->firstItem() ?? 0 }}</span>
                                     sampai <span class="font-semibold text-gray-900">{{ $rating->lastItem() ?? 0 }}</span>
                                     dari <span class="font-semibold text-gray-900">{{ $rating->total() }}</span> penilaian
                                 </div>
 
-                                
+
                                 <div class="flex items-center gap-2">
-                                    
+
                                     @if ($rating->onFirstPage())
                                         <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed flex items-center">
                                             <i data-feather="chevron-left" class="w-4 h-4 mr-1"></i>
@@ -708,7 +714,7 @@
                                         </a>
                                     @endif
 
-                                    
+
                                     <div class="hidden sm:flex items-center gap-1">
                                         @for ($page = 1; $page <= $rating->lastPage(); $page++)
                                             @if ($page == $rating->currentPage())
@@ -726,7 +732,7 @@
                                         @endfor
                                     </div>
 
-                                    
+
                                     @if ($rating->hasMorePages())
                                         <a href="{{ $rating->nextPageUrl() }}"
                                            class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center">
@@ -748,13 +754,13 @@
             </div>
         </div>
     </div>
-    
+
     <div id="addTechnicianModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeAddTechnicianModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
-                
+
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-5 rounded-t-2xl">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -774,11 +780,11 @@
                     </div>
                 </div>
 
-                
+
                 <form id="addTechnicianForm" method="POST" action={{ route('adminstoreTechnician') }}>
                     @csrf
                     <div class="p-6 space-y-6">
-                        
+
                         <div>
                             <label for="techName" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                 <div class="w-6 h-6 bg-blue-100 rounded-lg flex items-center justify-center mr-2">
@@ -791,7 +797,7 @@
                                 placeholder="Masukkan nama lengkap teknisi">
                         </div>
 
-                        
+
                         <div>
                             <label for="techEmail" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                 <div class="w-6 h-6 bg-purple-100 rounded-lg flex items-center justify-center mr-2">
@@ -907,14 +913,144 @@
         </div>
     </div>
 
-    
-    
+
+    <div id="addAdminModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeAddAdminModal()"></div>
+        <div class="relative w-full h-full flex items-center justify-center p-4">
+            <div
+                class="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
+
+                <div class="bg-gradient-to-r from-purple-600 to-purple-800 px-6 py-5 rounded-t-2xl">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div
+                                class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-3 backdrop-blur-sm">
+                                <i data-feather="shield" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Tambah Admin Baru</h3>
+                                <p class="text-purple-100 text-sm">Isi informasi admin baru</p>
+                            </div>
+                        </div>
+                        <button onclick="closeAddAdminModal()"
+                            class="text-white hover:text-purple-100 transition-colors">
+                            <i data-feather="x" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+
+
+                <form id="addAdminForm" method="POST" action="{{ route('admincreateAdmin') }}">
+                    @csrf
+                    <div class="p-6 space-y-6">
+
+                        <div>
+                            <label for="adminName" class="flex items-center text-sm font-bold text-gray-800 mb-2">
+                                <div class="w-6 h-6 bg-purple-100 rounded-lg flex items-center justify-center mr-2">
+                                    <i data-feather="user" class="w-4 h-4 text-purple-600"></i>
+                                </div>
+                                Nama Lengkap <span class="text-red-500 ml-1">*</span>
+                            </label>
+                            <input type="text" id="adminName" name="name"
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all outline-none text-gray-800 font-semibold"
+                                placeholder="Masukkan nama lengkap admin">
+                        </div>
+
+
+                        <div>
+                            <label for="adminEmail" class="flex items-center text-sm font-bold text-gray-800 mb-2">
+                                <div class="w-6 h-6 bg-blue-100 rounded-lg flex items-center justify-center mr-2">
+                                    <i data-feather="mail" class="w-4 h-4 text-blue-600"></i>
+                                </div>
+                                Email <span class="text-red-500 ml-1">*</span>
+                            </label>
+                            <input type="email" id="adminEmail" name="email"
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none text-gray-800 font-semibold"
+                                placeholder="contoh@email.com">
+                        </div>
+
+                        <div>
+                            <label for="adminPhone" class="flex items-center text-sm font-bold text-gray-800 mb-2">
+                                <div class="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mr-2">
+                                    <i data-feather="phone" class="w-4 h-4 text-green-600"></i>
+                                </div>
+                                No. Telepon <span class="text-red-500 ml-1">*</span>
+                            </label>
+                            <input type="text" id="adminPhone" name="phone"
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none text-gray-800 font-semibold"
+                                placeholder="08xx xxxx xxxx">
+                            <p class="text-xs text-gray-500 mt-1 ml-1">
+                                <i data-feather="info" class="w-3 h-3 inline-block mr-1"></i>
+                                Format: 08xxxxxxxxxx
+                            </p>
+                        </div>
+
+                        <div>
+                            <label for="adminAddress" class="flex items-center text-sm font-bold text-gray-800 mb-2">
+                                <div class="w-6 h-6 bg-red-100 rounded-lg flex items-center justify-center mr-2">
+                                    <i data-feather="map-pin" class="w-4 h-4 text-red-600"></i>
+                                </div>
+                                Alamat Lengkap <span class="text-red-500 ml-1">*</span>
+                            </label>
+                            <textarea id="adminAddress" name="address" rows="3"
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all outline-none text-gray-800 resize-none"
+                                placeholder="Masukkan alamat lengkap admin"></textarea>
+                        </div>
+
+                        <div>
+                            <label for="adminPassword" class="flex items-center text-sm font-bold text-gray-800 mb-2">
+                                <div class="w-6 h-6 bg-rose-100 rounded-lg flex items-center justify-center mr-2">
+                                    <i data-feather="lock" class="w-4 h-4 text-rose-600"></i>
+                                </div>
+                                Password <span class="text-red-500 ml-1">*</span>
+                            </label>
+                            <input type="password" id="adminPassword" name="password"  minlength="8"
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-rose-500 focus:ring-2 focus:ring-rose-200 transition-all outline-none text-gray-800 font-semibold"
+                                placeholder="Minimal 8 karakter">
+                            <p class="text-xs text-gray-500 mt-1 ml-1">
+                                <i data-feather="alert-circle" class="w-3 h-3 inline-block mr-1"></i>
+                                Password minimal 8 karakter
+                            </p>
+                        </div>
+
+                        <div
+                            class="bg-gradient-to-br from-purple-50 to-fuchsia-50 p-4 rounded-xl border-l-4 border-purple-400 shadow-sm">
+                            <div class="flex items-start">
+                                <div
+                                    class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
+                                    <i data-feather="info" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-purple-700 mb-1">INFORMASI</h4>
+                                    <p class="text-xs text-purple-600 leading-relaxed">Admin baru akan memiliki akses penuh ke dashboard ini. Pastikan data yang dimasukkan benar.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 flex gap-3">
+                        <button type="button" onclick="closeAddAdminModal()"
+                            class="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all">
+                            <i data-feather="x" class="w-4 h-4 inline-block mr-2"></i>Batal
+                        </button>
+                        <button type="submit"
+                            class="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                            <i data-feather="check-circle" class="w-4 h-4 inline-block mr-2"></i>Tambah Admin
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
     <div id="editOrderModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeEditOrderModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
-                
+
                 <div class="bg-gradient-to-r from-amber-600 to-orange-700 px-6 py-5 rounded-t-2xl">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -934,13 +1070,13 @@
                     </div>
                 </div>
 
-                
+
                 <form id="editOrderForm" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="p-6 space-y-6">
-                        
+
                         <div class="bg-amber-50 p-4 rounded-xl border-2 border-amber-200">
                             <div class="flex items-center">
                                 <div class="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center mr-3">
@@ -954,7 +1090,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            
+
                             <div class="md:col-span-2">
                                 <label for="edit_technician_id"
                                     class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -977,7 +1113,7 @@
                                 </p>
                             </div>
 
-                            
+
                             <div>
                                 <label for="edit_device_type"
                                     class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -995,7 +1131,7 @@
                                 </select>
                             </div>
 
-                            
+
                             <div>
                                 <label for="edit_brand" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                     <div class="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mr-2">
@@ -1008,7 +1144,7 @@
                                     placeholder="Contoh: Samsung, Apple, Asus">
                             </div>
 
-                            
+
                             <div>
                                 <label for="edit_schedule_date"
                                     class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1025,7 +1161,7 @@
                                 </p>
                             </div>
 
-                            
+
                             <div>
                                 <label for="edit_estimated_cost"
                                     class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1044,7 +1180,7 @@
                                 </div>
                             </div>
 
-                            
+
                             <div class="md:col-span-2">
                                 <label for="edit_status" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                     <div class="w-6 h-6 bg-indigo-100 rounded-lg flex items-center justify-center mr-2">
@@ -1062,7 +1198,7 @@
                                 </select>
                             </div>
 
-                            
+
                             <div class="md:col-span-2">
                                 <label for="edit_address" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                     <div class="w-6 h-6 bg-red-100 rounded-lg flex items-center justify-center mr-2">
@@ -1080,7 +1216,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="bg-amber-50 p-4 rounded-xl border-2 border-amber-200">
                             <div class="flex items-start">
                                 <div
@@ -1099,7 +1235,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 flex gap-3">
                         <button type="button" onclick="closeEditOrderModal()"
                             class="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all">
@@ -1115,13 +1251,13 @@
         </div>
     </div>
 
-    
+
     <div id="viewOrderModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeViewOrderModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
-                
+
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-5 rounded-t-2xl sticky top-0 z-10">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -1134,13 +1270,13 @@
                                 <p class="text-blue-100 text-sm">Informasi lengkap pesanan</p>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
 
-                
+
                 <div class="p-6 space-y-6">
-                    
+
                     <div class="flex flex-wrap gap-4">
                         <div class="flex-1 min-w-[200px] bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
                             <div class="flex items-center">
@@ -1168,7 +1304,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center mr-2">
@@ -1192,7 +1328,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border-2 border-blue-200"
                         id="technicianSection">
                         <div class="flex items-center mb-4">
@@ -1221,7 +1357,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-xl border-2 border-purple-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center mr-2">
@@ -1241,7 +1377,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-red-50 to-orange-50 p-5 rounded-xl border-l-4 border-red-400">
                         <div class="flex items-center mb-3">
                             <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center mr-2">
@@ -1252,9 +1388,9 @@
                         <p class="text-sm text-gray-700 leading-relaxed" id="viewIssueDesc">-</p>
                     </div>
 
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        
+
                         <div class="bg-gradient-to-br from-amber-50 to-yellow-50 p-5 rounded-xl border-2 border-amber-200">
                             <div class="flex items-center mb-3">
                                 <div class="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center mr-2">
@@ -1265,7 +1401,7 @@
                             <p class="text-sm text-gray-800 font-medium" id="viewScheduleDate">-</p>
                         </div>
 
-                        
+
                         <div
                             class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
                             <div class="flex items-center mb-3">
@@ -1278,7 +1414,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-5 rounded-xl border-2 border-indigo-200">
                         <div class="flex items-center mb-3">
                             <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center mr-2">
@@ -1295,7 +1431,7 @@
                         </a>
                     </div>
 
-                    
+
                     <div id="photoSection" class="hidden">
                         <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-5 rounded-xl border-2 border-gray-200">
                             <div class="flex items-center mb-3">
@@ -1320,9 +1456,9 @@
                         </div>
                     </div>
 
-                    
+
                     <div id="completionSection" class="hidden space-y-4">
-                        
+
                         <div
                             class="bg-gradient-to-br from-yellow-50 to-orange-50 p-5 rounded-xl border-2 border-yellow-200">
                             <div class="flex items-center mb-3">
@@ -1334,7 +1470,7 @@
                             <p class="text-2xl text-gray-800 font-black" id="viewFinalCost">-</p>
                         </div>
 
-                        
+
                         <div
                             class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
                             <div class="flex items-center mb-3">
@@ -1346,7 +1482,7 @@
                             <p class="text-sm text-gray-800 font-medium" id="viewCompletedDate">-</p>
                         </div>
 
-                        
+
                         <div id="notesSection"
                             class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border-l-4 border-blue-400">
                             <div class="flex items-center mb-3">
@@ -1359,7 +1495,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div id="cancelledSection"
                         class="hidden bg-gradient-to-br from-red-50 to-pink-50 p-5 rounded-xl border-2 border-red-200">
                         <div class="flex items-center mb-3">
@@ -1372,7 +1508,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 sticky bottom-0">
                     <button onclick="closeViewOrderModal()"
                         class="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
@@ -1383,7 +1519,7 @@
         </div>
     </div>
 
-    
+
     <div id="imageFullscreenModal" class="hidden fixed inset-0 z-[10000] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeImageFullscreen()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
@@ -1398,14 +1534,14 @@
         </div>
     </div>
 
-    
+
     <div id="viewCustomerModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeViewCustomerModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
 
-                
+
                 <div class="bg-gradient-to-r from-green-600 to-emerald-800 px-6 py-5 rounded-t-2xl sticky top-0 z-10">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -1425,10 +1561,10 @@
                     </div>
                 </div>
 
-                
+
                 <div class="p-6 space-y-6">
 
-                    
+
                     <div
                         class="flex items-center gap-6 bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200">
                         <div
@@ -1442,7 +1578,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border-2 border-blue-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-2">
@@ -1458,7 +1594,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-xl border-2 border-purple-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center mr-2">
@@ -1467,7 +1603,7 @@
                             <h4 class="text-sm font-bold text-gray-800">INFORMASI KONTAK</h4>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            
+
                             <div class="md:col-span-2">
                                 <p class="text-xs font-semibold text-purple-700 mb-2">Email</p>
                                 <div
@@ -1480,7 +1616,7 @@
                                 </div>
                             </div>
 
-                            
+
                             <div class="md:col-span-2">
                                 <p class="text-xs font-semibold text-purple-700 mb-2">No. Telepon</p>
                                 <div
@@ -1494,7 +1630,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-5 rounded-xl border-2 border-orange-200">
                         <div class="flex items-center mb-3">
                             <div class="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center mr-2">
@@ -1511,7 +1647,7 @@
                         </a>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-indigo-50 to-blue-50 p-5 rounded-xl border-2 border-indigo-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center mr-2">
@@ -1539,7 +1675,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-5 rounded-xl border-2 border-gray-200">
                         <div class="flex items-center">
                             <div class="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center mr-3">
@@ -1553,7 +1689,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 sticky bottom-0">
                     <button onclick="closeViewCustomerModal()"
                         class="w-full px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all">
@@ -1564,14 +1700,14 @@
         </div>
     </div>
 
-    
+
     <div id="viewTechnicianModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeViewTechnicianModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
 
-                
+
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-5 rounded-t-2xl sticky top-0 z-10">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -1591,10 +1727,10 @@
                     </div>
                 </div>
 
-                
+
                 <div class="p-6 space-y-6">
 
-                    
+
                     <div
                         class="flex items-center gap-6 bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl border-2 border-blue-200">
                         <div
@@ -1608,7 +1744,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div
                             class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
@@ -1635,7 +1771,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-xl border-2 border-amber-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center mr-2">
@@ -1659,7 +1795,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="bg-gradient-to-br from-indigo-50 to-blue-50 p-5 rounded-xl border-2 border-indigo-200">
                             <div class="flex items-center mb-3">
@@ -1682,7 +1818,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-5 rounded-xl border-2 border-gray-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center mr-2">
@@ -1708,7 +1844,7 @@
 
                 </div>
 
-                
+
                 <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 sticky bottom-0 flex gap-3">
                     <button onclick="closeViewTechnicianModal()"
                         class="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all">
@@ -1723,14 +1859,14 @@
         </div>
     </div>
 
-    
+
     <div id="editTechnicianModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeEditTechnicianModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
 
-                
+
                 <div class="bg-gradient-to-r from-amber-600 to-orange-700 px-6 py-5 rounded-t-2xl">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -1750,13 +1886,13 @@
                     </div>
                 </div>
 
-                
+
                 <form id="editTechnicianForm" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="p-6 space-y-6">
-                        
+
                         <div class="bg-amber-50 p-4 rounded-xl border-2 border-amber-200">
                             <div class="flex items-center">
                                 <div class="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center mr-3">
@@ -1769,7 +1905,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div>
                             <label for="edit_tech_name" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                 <div class="w-6 h-6 bg-blue-100 rounded-lg flex items-center justify-center mr-2">
@@ -1782,7 +1918,7 @@
                                 placeholder="Masukkan nama lengkap">
                         </div>
 
-                        
+
                         <div>
                             <label for="edit_tech_email" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                 <div class="w-6 h-6 bg-purple-100 rounded-lg flex items-center justify-center mr-2">
@@ -1795,7 +1931,7 @@
                                 placeholder="contoh@email.com">
                         </div>
 
-                        
+
                         <div>
                             <label for="edit_tech_phone" class="flex items-center text-sm font-bold text-gray-800 mb-2">
                                 <div class="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mr-2">
@@ -1808,7 +1944,7 @@
                                 placeholder="08xx xxxx xxxx">
                         </div>
 
-                        
+
                         <div>
                             <label for="edit_tech_address"
                                 class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1822,7 +1958,7 @@
                                 placeholder="Masukkan alamat lengkap"></textarea>
                         </div>
 
-                        
+
                         <div>
                             <label for="edit_tech_specialization"
                                 class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1836,7 +1972,7 @@
                                 placeholder="Contoh: HP, Laptop, Tablet">
                         </div>
 
-                        
+
                         <div>
                             <label for="edit_tech_experience"
                                 class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1851,7 +1987,7 @@
                                 placeholder="Masukkan pengalaman dalam tahun">
                         </div>
 
-                        
+
                         <div>
                             <label for="edit_tech_status"
                                 class="flex items-center text-sm font-bold text-gray-800 mb-2">
@@ -1867,7 +2003,7 @@
                             </select>
                         </div>
 
-                        
+
                         <div class="bg-amber-50 p-4 rounded-xl border-2 border-amber-200">
                             <div class="flex items-start">
                                 <div
@@ -1885,7 +2021,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 flex gap-3">
                         <button type="button" onclick="closeEditTechnicianModal()"
                             class="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all">
@@ -1901,14 +2037,14 @@
         </div>
     </div>
 
-    
+
     <div id="viewRatingDetailModal" class="hidden fixed inset-0 z-[9999] animate-fade-in">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-sm" onclick="closeViewRatingDetailModal()"></div>
         <div class="relative w-full h-full flex items-center justify-center p-4">
             <div
                 class="relative bg-white rounded-2xl shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
 
-                
+
                 <div class="bg-gradient-to-r from-yellow-600 to-amber-700 px-6 py-5 rounded-t-2xl sticky top-0 z-10">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
@@ -1928,10 +2064,10 @@
                     </div>
                 </div>
 
-                
+
                 <div class="p-6 space-y-6">
 
-                    
+
                     <div class="flex flex-wrap gap-4">
                         <div class="flex-1 min-w-[200px] bg-yellow-50 p-4 rounded-xl border-2 border-yellow-200">
                             <div class="flex items-center">
@@ -1959,7 +2095,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl border-2 border-green-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center mr-2">
@@ -1970,7 +2106,7 @@
                         <p class="text-sm text-gray-800 font-medium" id="viewRatingCustomerName">-</p>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border-2 border-blue-200">
                         <div class="flex items-center mb-4">
                             <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-2">
@@ -1981,7 +2117,7 @@
                         <p class="text-sm text-gray-800 font-medium" id="viewRatingTechnicianName">-</p>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-xl border-2 border-purple-200">
                         <div class="flex items-center mb-3">
                             <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center mr-2">
@@ -1995,7 +2131,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-red-50 to-orange-50 p-5 rounded-xl border-l-4 border-red-400">
                         <div class="flex items-center mb-3">
                             <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center mr-2">
@@ -2006,7 +2142,7 @@
                         <p class="text-sm text-gray-700 leading-relaxed" id="viewRatingComment">-</p>
                     </div>
 
-                    
+
                     <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-5 rounded-xl border-2 border-gray-200">
                         <div class="flex items-center">
                             <div class="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center mr-3">
@@ -2021,7 +2157,7 @@
 
                 </div>
 
-                
+
                 <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-200 sticky bottom-0">
                     <button onclick="closeViewRatingDetailModal()"
                         class="w-full px-6 py-3 bg-gradient-to-r from-yellow-600 to-amber-700 hover:from-yellow-700 hover:to-amber-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
@@ -2510,7 +2646,7 @@
             document.getElementById('viewRatingOrderId').textContent = `#${String(ratingData.order_id).padStart(4, '0')}`;
             document.getElementById('viewRatingCustomerName').textContent = ratingData.customer_name || '-';
             document.getElementById('viewRatingTechnicianName').textContent = ratingData.technician_name || '-';
-            
+
             const ratingValue = parseFloat(ratingData.rating_value) || 0;
             document.getElementById('viewRatingValue').textContent = ratingValue.toFixed(1);
 

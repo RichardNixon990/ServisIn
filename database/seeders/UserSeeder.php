@@ -37,41 +37,41 @@ class UserSeeder extends Seeder
         // ================================
         // 3. Generate Banyak Teknisi
         // ================================
-        for ($i = 1; $i <= 5; $i++) {  // === jumlah teknisi disini ubah sesukamu ===
+        // for ($i = 1; $i <= 5; $i++) {  // === jumlah teknisi disini ubah sesukamu ===
 
-            $techUser = User::firstOrCreate(
-                ['email' => "technician$i@example.com"],
-                [
-                    'name' => "Technician $i",
-                    'password' => Hash::make('password123'),
-                    'phone' => "08234567890$i",
-                    'address' => "Technician $i Address",
-                    'role_id' => $technicianRole->id
-                ]
-            );
+        //     $techUser = User::firstOrCreate(
+        //         ['email' => "technician$i@example.com"],
+        //         [
+        //             'name' => "Technician $i",
+        //             'password' => Hash::make('password123'),
+        //             'phone' => "08234567890$i",
+        //             'address' => "Technician $i Address",
+        //             'role_id' => $technicianRole->id
+        //         ]
+        //     );
 
-            Technician::firstOrCreate(
-                ['user_id' => $techUser->id],
-                [
-                    'specialization' => Arr::random(['Laptop', 'HP', 'Elektronik', 'Komputer']),
-                    'experience_years' => rand(1, 12),
-                    'status' => Arr::random(['online', 'offline'])
-                ]
-            );
-        }
+        //     Technician::firstOrCreate(
+        //         ['user_id' => $techUser->id],
+        //         [
+        //             'specialization' => Arr::random(['Laptop', 'HP', 'Elektronik', 'Komputer']),
+        //             'experience_years' => rand(1, 12),
+        //             'status' => Arr::random(['online', 'offline'])
+        //         ]
+        //     );
+        // }
 
         // ================================
         // 4. Create User Biasa
         // ================================
-        User::firstOrCreate(
-            ['email' => 'user@example.com'],
-            [
-                'name' => 'User Biasa',
-                'password' => Hash::make('password123'),
-                'phone' => '083456789012',
-                'address' => 'User Address',
-                'role_id' => $userRole->id
-            ]
-        );
+        // User::firstOrCreate(
+        //     ['email' => 'user@example.com'],
+        //     [
+        //         'name' => 'User Biasa',
+        //         'password' => Hash::make('password123'),
+        //         'phone' => '083456789012',
+        //         'address' => 'User Address',
+        //         'role_id' => $userRole->id
+        //     ]
+        // );
     }
 }

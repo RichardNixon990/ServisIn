@@ -131,7 +131,7 @@ window.editTechnician = function(technicianId, techData) {
         return;
     }
 
-    
+
     const validId = parseInt(technicianId);
     if (isNaN(validId)) {
         console.error('❌ Invalid technician ID:', technicianId);
@@ -143,19 +143,19 @@ window.editTechnician = function(technicianId, techData) {
         return;
     }
 
-    
+
     const baseUrl = window.location.origin;
     form.action = `${baseUrl}/admin/technician/${validId}`;
     console.log('✅ Form action:', form.action);
 
-    
+
     const idElement = document.getElementById('editTechModalId');
     if (idElement) {
         idElement.textContent = `#${String(validId).padStart(4, '0')}`;
         console.log('✅ ID set:', idElement.textContent);
     }
 
-    
+
     document.getElementById('edit_tech_name').value = techData.name || '';
     document.getElementById('edit_tech_email').value = techData.email || '';
     document.getElementById('edit_tech_phone').value = techData.phone || '';
@@ -171,12 +171,12 @@ window.editTechnician = function(technicianId, techData) {
         phone: techData.phone
     });
 
-    
+
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     console.log('✅ Modal opened');
 
-    
+
     setTimeout(() => {
         if (typeof feather !== 'undefined') {
             feather.replace();
@@ -191,8 +191,8 @@ window.closeEditTechnicianModal = function() {
         modal.classList.add('hidden');
         document.body.style.overflow = 'auto';
 
-        
-        
+
+
     }
 };
 
@@ -447,7 +447,7 @@ window.openViewRatingDetailModal = function(ratingData) {
     document.getElementById('viewRatingOrderId').textContent = `#${String(ratingData.order_id).padStart(4, '0')}`;
     document.getElementById('viewRatingCustomerName').textContent = ratingData.customer_name || '-';
     document.getElementById('viewRatingTechnicianName').textContent = ratingData.technician_name || '-';
-    
+
     const ratingValue = parseFloat(ratingData.rating_value) || 0;
     document.getElementById('viewRatingValue').textContent = ratingValue.toFixed(1);
 
@@ -543,7 +543,7 @@ document.getElementById('editTechnicianForm')?.addEventListener('submit', functi
     const experience = document.getElementById('edit_tech_experience').value;
     const status = document.getElementById('edit_tech_status').value;
 
-    
+
     if (!name || !email || !phone || !address || !specialization || !experience || !status) {
         Swal.fire({
             icon: 'error',
@@ -566,14 +566,14 @@ document.getElementById('editTechnicianForm')?.addEventListener('submit', functi
         status
     });
 
-    
+
     const formData = new FormData(this);
     console.log('FormData entries:');
     for (let pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
     }
 
-    
+
 
     Swal.fire({
         title: 'Memproses...',
@@ -581,13 +581,13 @@ document.getElementById('editTechnicianForm')?.addEventListener('submit', functi
         didOpen: () => Swal.showLoading()
     });
 
-    
+
     this.submit();
 });
 
 
 document.addEventListener('click', function(e) {
-    
+
     const customerBtn = e.target.closest('.view-customer-detail-btn');
     if (customerBtn) {
         e.preventDefault();
@@ -610,7 +610,7 @@ document.addEventListener('click', function(e) {
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        const modals = ['editOrderModal', 'addTechnicianModal', 'viewOrderModal', 'imageFullscreenModal',
+        const modals = ['editOrderModal', 'addTechnicianModal', 'addAdminModal', 'viewOrderModal', 'imageFullscreenModal',
             'viewCustomerModal', 'viewTechnicianModal', 'editTechnicianModal', 'viewRatingDetailModal'
         ];
         modals.forEach(modalId => {
@@ -627,7 +627,7 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Initializing dashboard...');
 
-    
+
     const tabButtons = document.querySelectorAll('.tab-btn');
     tabButtons.forEach(button => {
         button.addEventListener('click', function(e) {
@@ -639,10 +639,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    
+
     window.switchTab('orders');
 
-    
+
     if (typeof feather !== 'undefined') {
         feather.replace();
         console.log('✅ Feather icons loaded');
@@ -674,4 +674,56 @@ document.addEventListener('DOMContentLoaded', function() {
             showConfirmButton: true
         });
     }
+});
+
+// Admin Modal Functions
+window.openAddAdminModal = function() {
+    const modal = document.getElementById('addAdminModal');
+    const form = document.getElementById('addAdminForm');
+    if (modal && form) {
+        form.reset();
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => feather.replace(), 50);
+    }
+};
+
+window.closeAddAdminModal = function() {
+    const modal = document.getElementById('addAdminModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+};
+
+window.showAddAdminModal = function() {
+    window.openAddAdminModal();
+};
+
+document.getElementById('addAdminForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('adminName').value.trim();
+    const email = document.getElementById('adminEmail').value.trim();
+    const phone = document.getElementById('adminPhone').value.trim();
+    const password = document.getElementById('adminPassword').value;
+    const address = document.getElementById('adminAddress').value.trim();
+
+    if (!name || !email || !phone || !password || !address) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Data Tidak Lengkap!',
+            text: 'Semua field harus diisi.'
+        });
+        return;
+    }
+
+    window.closeAddAdminModal();
+    setTimeout(() => {
+        Swal.fire({
+            title: 'Memproses...',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+        setTimeout(() => this.submit(), 200);
+    }, 200);
 });
